@@ -2,7 +2,7 @@
 //Introduction, Get Started with C++, Syntax, Statements, Syntax Code Challenge, Output (Print Text), Print Numbers, New Lines, Output Code Challenge, Comments
 /*Ja, ich weiß, wie man mehrzeilige Kommentare verwendet.*/
 //VariablesDeclare, Multiple Variables, Identifiers, Constants, Variables Examples, Variables Code Challenge, User Input, Data Types, Numeric Data Types, Boolean Data Types
-//Character Data Types, String Data Types, auto, Data Types Examples,(Tu jestem teraz)
+//Character Data Types, String Data Types, auto, Data Types Examples,
 //
 //
 //
@@ -114,10 +114,44 @@ int main() {
 
     int stück = 49;
     double kosten_pro_stück  = 23.66;
-    double währung = '$';
+    double gesamtkosten = stück * kosten_pro_stück;
+    char währung = '$';
+
+    cout << "Stückzahl: " << stück << "\n";
+    cout << "Kosten pro Stück: " << kosten_pro_stück << "\n";
+    cout << "Gesamtkosten: " << gesamtkosten << währung << "\n";
 
     
+/* Data Types Code Challenge, Operators, Arithmetic Operators (Ich bin jetzt hier) */
 
+
+    int summe1 = 34 + 66;
+    cout << summe1 << endl;
+    int summe2 = summe1 + 50;
+    cout << summe2 << endl;
+    int summe3 = summe2 + summe1;
+    cout << summe3 << endl;
+
+
+    int hu = 100;
+    int bu = 20;
+
+    cout << (hu + bu) << "\n";
+    cout << (hu - bu) << "\n";
+    cout << (hu * bu) << "\n";
+    cout << (hu / bu) << "\n";
+    cout << (hu % bu) << "\n";
+
+    int zu = 7;
+    ++z;
+    cout << zu << "\n";
+    --z;
+    cout << zu << "\n";
+
+
+    int gu = 10;
+    int du = 3;
+    
 
     return 0;
 
