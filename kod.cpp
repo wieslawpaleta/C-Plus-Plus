@@ -152,6 +152,77 @@ int main() {
     int gu = 10;
     int du = 3;
     
+    cout << (gu + du) << "\n";
+    cout << (gu - du) << "\n";
+    cout << (gu * du) << "\n";
+    cout << (gu / du) << "\n";
+    cout << (gu % du) << "\n";
+
+
+    int lu = 5;
+    ++lu;
+    cout << lu << "\n";
+    --lu;
+    cout << lu << "\n";
+
+
+    int au = 10;
+    int qu = 3;
+    cout << (x / y) << "\n";
+
+    double vu = 10.0;
+    double nu = 3.0;
+    cout << (a / b) << "\n";
+
+
+    int tu = 5;
+
+    ++tu;
+    cout << tu << "\n";
+
+
+    int wu = 5;
+
+    --wu;
+    cout << wu << "\n";
+
+
+    int uu = 5;
+
+    ++uu;
+    --uu;
+    cout << uu << "\n";
+
+
+    int personenImRaum = 0;
+
+    personenImRaum++;
+    personenImRaum++;
+    personenImRaum++;
+
+    cout << personenImRaum << "\n";
+
+    personenImRaum--;
+
+    cout << personenImRaum << "\n";
+
+
+/*Assignment Operators (Ich bin jetzt hier) */
+
+
+    int hu = 10;
+    hu += 5;
+    hu -= 5;
+    hu *= 5;
+    hu /= 5;
+    hu %= 5;
+    hu &= 5;
+    hu |= 5;
+    hu ^= 5;
+    hu >>= 5;
+    hu <<= 5;
+
+
 
     return 0;
 
