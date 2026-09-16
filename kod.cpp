@@ -210,19 +210,51 @@ int main() {
 /*Assignment Operators (Ich bin jetzt hier) */
 
 
-    int hu = 10;
-    hu += 5;
-    hu -= 5;
-    hu *= 5;
-    hu /= 5;
-    hu %= 5;
-    hu &= 5;
-    hu |= 5;
-    hu ^= 5;
-    hu >>= 5;
-    hu <<= 5;
+    int yu = 10;
+    yu += 5;
+    yu -= 5;
+    yu *= 5;
+    yu /= 5;
+    yu %= 5;
+    yu &= 5;
+    yu |= 5;
+    yu ^= 5;
+    yu >>= 5;
+    yu <<= 5;
+
+    cout << yu << endl;
 
 
+/*Praixsbeispiel*/
+/*Comparison Operators, Logical Operators, Operator Precedence (Ich bin jetzt hier)*/
+
+
+    int ersparnisse = 100;
+    ersparnisse += 50;
+
+    cout << "Die Gesamtersparnisse: " << ersparnisse;
+
+
+    int ao = 5;
+    int bo = 3;
+
+    cout << (ao > bo) << endl;
+    cout << (ao < bo) << endl;
+    cout << (ao == bo) << endl;
+    cout << (ao != bo) << endl;
+    cout << (ao >= bo) << endl;
+    cout << (ao <= bo) << endl;
+    cout << (ao < bo && ao != bo) << endl;
+    cout << (ao < bo || ao > bo) << endl;
+    cout << !(ao < bo && ao == bo) << endl;
+
+
+    int co = 2 + 3 * 4;
+    int eo = (2 + 3) * 4;
+    
+    cout << co << endl;
+    cout << eo << endl;
+    
 
     return 0;
 
