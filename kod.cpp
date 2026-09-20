@@ -14,6 +14,7 @@
 #include <iostream>
 #include <string>
 #include <typeinfo>
+#include <cmath>
 using namespace std;
 
 
@@ -302,48 +303,79 @@ int main() {
 
 
     /*Access Strings*/
-    string mo = "Halo";
-    cout << mo[1] << endl;
-    cout << mo[mo.length() - 1] << endl;
+//     string mo = "Halo";
+//     cout << mo[1] << endl;
+//     cout << mo[mo.length() - 1] << endl;
 
 
-    string no = "Willkommen";
-    no[0] = 'J';
-    cout << no << endl;
+//     string no = "Willkommen";
+//     no[0] = 'J';
+//     cout << no << endl;
 
 
-    string oo = "Willkommen";
-    cout << oo << endl;
+//     string oo = "Willkommen";
+//     cout << oo << endl;
 
-    cout << oo.at(0) << endl;
-    cout << oo.at(1) << endl;
-    cout << oo.at(oo.length() - 1) << endl;
+//     cout << oo.at(0) << endl;
+//     cout << oo.at(1) << endl;
+//     cout << oo.at(oo.length() - 1) << endl;
 
-    oo.at(0) = 'J';
-    cout << oo << endl;
-
-
-// Special Characters
-    string qo = "Wir sind\t die sogenannten \"Vikings\" aus dem\n Norder.\'\\";
-    cout << qo << endl;
+//     oo.at(0) = 'J';
+//     cout << oo << endl;
 
 
-// User Input Strings
-    // string name5;
-    // cout << "Gib deinen vollständigen Namen ein: ";
-    // cin >> name5;
-    // cout << "Dein Name, Kumpel, ist: " << name5 << endl;
+// // Special Characters
+//     string qo = "Wir sind\t die sogenannten \"Vikings\" aus dem\n Norder.\'\\";
+//     cout << qo << endl;
 
 
-    string fullName;
-    cout << "Gib deinen vollständigen Namen ein: ";
-    getline (cin, fullName);
-    cout << "Dein Name, Kumpel, ist: " << fullName << endl;
+// // User Input Strings
+//     // string name5;
+//     // cout << "Gib deinen vollständigen Namen ein: ";
+//     // cin >> name5;
+//     // cout << "Dein Name, Kumpel, ist: " << name5 << endl;
+
+
+//     string fullName;
+//     cout << "Gib deinen vollständigen Namen ein: ";
+//     getline (cin, fullName);
+//     cout << "Dein Name, Kumpel, ist: " << fullName << endl;
+
+
+// String Namespace
+// C-Style Strings, Strings Code Challenge
+    string grüße1 =  "Willkommen";
+    char grüße2[] = "Willkommen";
+
+    cout << grüße1 << endl;
+    cout << grüße2 << endl;
+
+
+// Math
+    cout << max(5, 10) << endl;
+    cout << min(5,10) << endl;
+    cout << sqrt(64) << endl;
+    cout << round(2.6) << endl;
+    cout << log(2) << endl;
+
+
+// Booleans
+    bool machtProgrammierenSpaß = true;
+    bool schmecktFischGut = false; 
+
+    cout << machtProgrammierenSpaß << "\n";
+    cout << schmecktFischGut << "\n";
+
+    cout << boolalpha << "\n";
+
+    cout << machtProgrammierenSpaß << "\n";
+    cout << schmecktFischGut << "\n";
+
+    cout << noboolalpha << "\n";
+
+    cout << machtProgrammierenSpaß << "\n";
+    cout << schmecktFischGut << "\n";
+
 
 }
-
-
-
-
-
 
