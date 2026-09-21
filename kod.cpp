@@ -344,37 +344,57 @@ int main() {
 
 // String Namespace
 // C-Style Strings, Strings Code Challenge
-    string grüße1 =  "Willkommen";
-    char grüße2[] = "Willkommen";
+//     string grüße1 =  "Willkommen";
+//     char grüße2[] = "Willkommen";
 
-    cout << grüße1 << endl;
-    cout << grüße2 << endl;
-
-
-// Math
-    cout << max(5, 10) << endl;
-    cout << min(5,10) << endl;
-    cout << sqrt(64) << endl;
-    cout << round(2.6) << endl;
-    cout << log(2) << endl;
+//     cout << grüße1 << endl;
+//     cout << grüße2 << endl;
 
 
-// Booleans
-    bool machtProgrammierenSpaß = true;
-    bool schmecktFischGut = false; 
+// // Math
+//     cout << max(5, 10) << endl;
+//     cout << min(5,10) << endl;
+//     cout << sqrt(64) << endl;
+//     cout << round(2.6) << endl;
+//     cout << log(2) << endl;
 
-    cout << machtProgrammierenSpaß << "\n";
-    cout << schmecktFischGut << "\n";
 
-    cout << boolalpha << "\n";
+// // Booleans, Boolean Expressions, Boolean Examples, Booleans Code Challenge
+//     bool machtProgrammierenSpaß = true;
+//     bool schmecktFischGut = false; 
 
-    cout << machtProgrammierenSpaß << "\n";
-    cout << schmecktFischGut << "\n";
+//     cout << machtProgrammierenSpaß << "\n";
+//     cout << schmecktFischGut << "\n";
 
-    cout << noboolalpha << "\n";
+//     cout << boolalpha << "\n";
 
-    cout << machtProgrammierenSpaß << "\n";
-    cout << schmecktFischGut << "\n";
+//     cout << machtProgrammierenSpaß << "\n";
+//     cout << schmecktFischGut << "\n";
+
+//     cout << noboolalpha << "\n";
+
+//     cout << machtProgrammierenSpaß << "\n";
+//     cout << schmecktFischGut << "\n";
+
+
+//     int a = 10;
+//     int b = 9;
+//     cout << (a > b) << endl;
+//     cout << (a == b) << endl;
+//     bool istGrößer = a > b;
+//     cout << istGrößer << endl;
+
+
+//     int meinAlter = 25;
+//     int wahlAlter = 18;
+
+//     if (meinAlter >= wahlAlter) {
+//         cout << "Alt genug, um zu wählen!" << endl;
+//     } else {
+//         cout << "Nicht alt genug, um zu wählen." << endl;
+//     }
+// If ... Else/if, If ... Else/Else, If ... Else/Else if
+
 
 
 }
