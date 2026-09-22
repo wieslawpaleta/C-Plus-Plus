@@ -393,8 +393,48 @@ int main() {
 //     } else {
 //         cout << "Nicht alt genug, um zu wählen." << endl;
 //     }
-// If ... Else/if, If ... Else/Else, If ... Else/Else if
 
+
+// If ... Else/if, If ... Else/Else, If ... Else/Else if
+    // int zeit = 16;
+    // if (zeit < 12) {
+    //     cout << "Guten Morgen!" << endl; 
+    // } else if (zeit < 18) {
+    //     cout << "Guten Tag!" << endl;
+    // } else {
+    //     cout << "Guten Abend!" << endl;
+    // }
+
+    // int zeit = 16;
+
+    // bool istMorgen = zeit < 12;
+    // bool istTag = zeit < 18;
+
+    // if (istMorgen) {
+    //     cout << "Guten Morgen!" << endl;
+    // } else if (istTag) {
+    //     cout << "Guten Tag!" << endl;
+    // } else {
+    //     cout << "Guten Abend!" << endl;
+    // }
+
+
+// If...Else/Short hand if...else
+    // int zeit = 20;
+    // if (zeit < 18) {
+    //     cout << "Guten Tag." << endl;
+    // } else {
+    //     cout << "Guten Abend" << endl;
+    // }
+
+
+    // int time = 20;
+    // string result = (time < 18)? "Guten Tag." : "Guten Abend.";
+    // cout << result << endl;
+
+
+    int zeit = 20;
+    cout << ((zeit < 18) ? "Guten Tag." : "Guten Abend.");
 
 
 }
