@@ -433,9 +433,40 @@ int main() {
     // cout << result << endl;
 
 
-    int zeit = 20;
-    cout << ((zeit < 18) ? "Guten Tag." : "Guten Abend.");
+    // int zeit = 20;
+    // cout << ((zeit < 18) ? "Guten Tag." : "Guten Abend.");
+
+    // int zeit = 22; 
+    // string nachricht = (zeit < 12) ? "Guten morgen."
+    //     : (zeit < 18) ? "Guten Tag."
+    //     : "Guten abend.";
+    // cout << nachricht;
 
 
+// If...Else/Nested If 
+    // int x = 15;
+    // int y = 25;
+
+    // if (x > 10) {
+    //     cout << "x ist größer als 10\n";
+        
+    //     if (y > 20) {
+    //         cout << "y ist auch größer als 20\n";
+    //     }
+    // }
+// If...Else/Nested If Praxisbeispiel
+    int Alter = 20;
+    bool istBürger = true;
+
+    if (Alter >= 18) {
+        cout << "Du kannst wählen.\n";
+
+        if (istBürger) {
+            cout << "Du bist Bürger, also darfst du wählen!";
+        } else {
+            cout << " Du kannst nicht wählen.\n";
+        }
+    }
+// If..Else/Logical Operators in Conditions
 }
 
