@@ -454,19 +454,77 @@ int main() {
     //         cout << "y ist auch größer als 20\n";
     //     }
     // }
-// If...Else/Nested If Praxisbeispiel
-    int Alter = 20;
-    bool istBürger = true;
+// // If...Else/Nested If Praxisbeispiel
+//     int Alter = 20;
+//     bool istBürger = true;
 
-    if (Alter >= 18) {
-        cout << "Du kannst wählen.\n";
+//     if (Alter >= 18) {
+//         cout << "Du kannst wählen.\n";
 
-        if (istBürger) {
-            cout << "Du bist Bürger, also darfst du wählen!";
-        } else {
-            cout << " Du kannst nicht wählen.\n";
-        }
-    }
+//         if (istBürger) {
+//             cout << "Du bist Bürger, also darfst du wählen!";
+//         } else {
+//             cout << " Du kannst nicht wählen.\n";
+//         }
+//     }
+
+
 // If..Else/Logical Operators in Conditions
+    // int a = 200;
+    // int b = 33;
+    // int c = 500;
+
+    // if (a > b && c > a) {
+    //     cout << "Beide Bedingungen sind erfüllt.";
+    // }
+
+//    if (a > b || a > c) {
+//         cout << "Mindestens eine Bedingung ist wahr.";
+//     } 
+
+    // if (!(a < b)) {
+    //     cout << "b ist nicht größer als a.";
+    // }
+
+
+    // bool istEingeloggt = true;
+    // bool istAdmin = false;
+    // int sicherheitsNiveau = 3; // 1 = am höchsten 
+
+    // if (istEingeloggt && (istAdmin || sicherheitsNiveau <= 2)) {
+    //     cout << "Zugriff erlaubt."; 
+    // } else {
+    //     cout << "Zugriff verweigert.";
+    // }
+
+
+//If ... Else/If ... Else Examples 
+    // int derTürcode = 1337;
+
+    // if (derTürcode = 1337) {
+    //     cout  << "Code korrekt. \nDie Tür ist jetzt offen.\n";
+    // } else {
+    //     cout << "Falscher Code. \nDie Tür bleibt geschlossen.\n";
+    // }
+
+    // int meinNummer = 10;
+
+    // if (meinNummer > 0) {
+    //     cout << "Der Wert ist eine positive Zahl.\n";
+    // } else if (meinNummer < 0) {
+    //     cout << "Der Wert ist eine negative Zahl.\n";
+    // } else {
+    //     cout << "Der Wert is 0.\n";
+    // }
+
+    // int meinAlter = 25;
+    // int Wahlalter = 18;
+
+    // if (meinAlter >= Wahlalter) {
+    //     cout << "Alt genug, um zu wählen!\n";
+    // } else {
+    //     cout << "Nicht Alt genug, um zu wählen!\n";
+    // }
+
 }
 
