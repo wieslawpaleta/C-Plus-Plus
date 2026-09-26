@@ -523,8 +523,46 @@ int main() {
     // if (meinAlter >= Wahlalter) {
     //     cout << "Alt genug, um zu wählen!\n";
     // } else {
-    //     cout << "Nicht Alt genug, um zu wählen!\n";
+    //     cout << "Nicht alt genug, um zu wählen!\n";
     // }
 
-}
+
+    // int dasAlter = 20;
+    // bool istStaatsbürger = true;
+
+    // if (dasAlter >= 18) {
+    //     cout << "Alt genug, um zu wählen!\n";
+
+    //     if (istStaatsbürger) {
+    //         cout << "Und du bist Staatsbürger, deshalb kannst du wählen!\n";
+    //     } else {
+    //         cout << "Aber du musst Staatsbürger sein, um wählen zu dürfen.\n";
+    //     }
+    // } else {
+    //     cout << "Nicht alt genug, um zu wählen.\n";
+    // }
+
+
+    // int meineZahl = 5;
+
+    // if (meineZahl % 2 == 0) {
+    //     cout << meineZahl << " ist gerade.\n";
+    // } else {
+    //     cout << meineZahl << " ist ungerade.\n";
+    // }
+
+
+//     int dieTemperatur = 30;
+
+    //     if (dieTemperatur < 0) {
+    //         cout << "Es ist eiskalt!\n";
+    //     } else if (dieTemperatur < 20) {
+    //         cout << "Es ist kühl.";
+    //     } else {
+    //         cout << "Es ist warm.\n";
+    //     }
+//If ... Else/Conditions Code Challenge
+//Switch/Switch
+
+// }
 
