@@ -563,6 +563,44 @@ int main() {
     //     }
 //If ... Else/Conditions Code Challenge
 //Switch/Switch
+    // int derTag = 6;
+    // switch (derTag) {
+    //     case 1:
+    //      cout << "der Montag" << endl;
+    //      break;
+    //     case 2:
+    //      cout << "der Dienstag" << endl;
+    //      break;
+    //     case 3:
+    //      cout << "der Mittwoch" << endl;
+    //      break;
+    //     case 4:
+    //      cout << "der Donnerstag" << endl;
+    //      break;
+    //     case 5:
+    //      cout << "der Freitag" << endl;
+    //      break;
+    //     case 6:
+    //      cout << "der Samstag" << endl;
+    //      break;
+    //     case 7:
+    //      cout << "der Sonntag" << endl;
+        
 
-// }
+    int derTag = 4;
+    switch (derTag) {
+        case 6:
+            cout << "Heute ist Samstag" << endl;
+            break;
+        case 7:
+            cout << "Heute ist Sonntag" << endl;
+            break;
+        default:
+            cout << "Freue mich auf das Wochenende!";
+    }
+    // }
+    
+
+
+}
 
