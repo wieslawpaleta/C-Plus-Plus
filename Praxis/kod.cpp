@@ -562,7 +562,7 @@ int main() {
     //         cout << "Es ist warm.\n";
     //     }
 //If ... Else/Conditions Code Challenge
-//Switch/Switch
+//Switch/Switch, Switch/Switch Code Challenge
     // int derTag = 6;
     // switch (derTag) {
     //     case 1:
@@ -587,19 +587,74 @@ int main() {
     //      cout << "der Sonntag" << endl;
         
 
-    int derTag = 4;
-    switch (derTag) {
-        case 6:
-            cout << "Heute ist Samstag" << endl;
-            break;
-        case 7:
-            cout << "Heute ist Sonntag" << endl;
-            break;
-        default:
-            cout << "Freue mich auf das Wochenende!";
-    }
+    // int derTag = 4;
+    // switch (derTag) {
+    //     case 6:
+    //         cout << "Heute ist Samstag" << endl;
+    //         break;
+    //     case 7:
+    //         cout << "Heute ist Sonntag" << endl;
+    //         break;
+    //     default:
+    //         cout << "Freue mich auf das Wochenende!";
     // }
     
+
+//While Loop/While Loop
+    // int i = 0;
+    // while (i < 5) {
+    //     cout << i << "\n";
+    //     i++;
+    // }
+    
+
+    // int dasRückzählen = 3;
+
+    // while (dasRückzählen > 0) {
+    //     cout << dasRückzählen << "\n";
+    //     dasRückzählen--;
+    // }
+
+    // cout << "Frohes neues Jahr!\n";
+
+
+//  While/Do/While Loop
+    // int i = 0;
+    // do {
+    //     cout << i << "\n";
+    //     i++;
+    // }
+
+    // while (i < 5);
+
+
+    // int i = 10;
+    // do {
+    //     cout << "i is " << i << "\n";
+    //     i++;
+    // } 
+
+    // while(i < 5);
+
+
+    // int dieZahl;
+    // do {
+    //     cout << "Gib eine positive Zahl ein: ";
+    //     cin >> dieZahl;
+    // }
+
+    // while (dieZahl > 0);
+
+
+//While Loop/While Loop Beispiele
+    int dasRückzählen = 3;
+
+    while (dasRückzählen > 0) {
+        cout << dasRückzählen << "\n";
+        dasRückzählen--;
+    }
+
+    cout << "Frohes neues Jahr!\n";
 
 
 }
