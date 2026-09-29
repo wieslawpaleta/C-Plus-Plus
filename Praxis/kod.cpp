@@ -647,15 +647,49 @@ int main() {
 
 
 //While Loop/While Loop Beispiele
-    int dasRückzählen = 3;
+    // int dasRückzählen = 3;
 
-    while (dasRückzählen > 0) {
-        cout << dasRückzählen << "\n";
-        dasRückzählen--;
-    }
+    // while (dasRückzählen > 0) {
+    //     cout << dasRückzählen << "\n";
+    //     dasRückzählen--;
+    // }
 
-    cout << "Frohes neues Jahr!\n";
+    // cout << "Frohes neues Jahr!\n";
+
+    // int i = 0;
+
+    // while (i <= 10) {
+    //     cout << i << "\n";
+    //     i += 2;
+    // }
+
+    // return 0;
+
+    // int dieZahlen = 12345;
+
+    // int revZahlen = 0;
+
+    // while (dieZahlen) {
+    //     revZahlen = revZahlen * 10 + dieZahlen % 10;
+
+    //     dieZahlen /= 10;
+    // }
+
+    // cout << "Umgedrehte Zahlen: " << revZahlen << "\n";
+
+    // int derWürfel = 1;
+
+    // while (derWürfel <= 6) {
+    //     if (derWürfel < 6) {
+    //         cout << "Kein Yatzy!\n";
+    //     } else {
+    //         cout << "Yatzy!\n";
+    //     }
+    // derWürfel = derWürfel + 1;
+    // }
 
 
+//While Loop/While Loop Code Challenge
+//For Loop/For Loop
 }
 
