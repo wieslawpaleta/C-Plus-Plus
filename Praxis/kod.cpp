@@ -691,5 +691,43 @@ int main() {
 
 //While Loop/While Loop Code Challenge
 //For Loop/For Loop
+    // for (int i = 0; i <= 10; i = i + 2){
+    //     cout << i << "\n";
+    // }
+
+    // int sum = 0;
+    // for (int i = 1; i <= 5; i++) {
+    //     sum = sum + i;
+    // }
+    // cout << "Die Summer ist " << sum; 
+
+//     for (int i = 5; i > 0; i--) {
+//         cout << i << "\n";
+//     }
+
+
+// //For Loop/Nested Loops
+//     for (int i = 1; i <= 2; ++i) {
+//         cout << "Äußerer: " << i << "\n";
+
+//         for (int j = 1; j <= 3; ++j) {
+//             cout << "Inner: " << j << "\n";
+//         }
+//     }
+
+
+    for (int i = 1; i <= 3; i++) {
+        for (int j = 1; j <= 3; j++) {
+            cout << i * j << " ";
+        }
+    cout << "\n";
+    }
+
+
+// For Loop/The foreach Loop
+    int meineZahlen[5] = {10, 20, 30, 40, 50};
+    for (int num : meineZahlen) {
+        cout << num << "\n";
+    }
 }
 
