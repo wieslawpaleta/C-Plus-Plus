@@ -716,18 +716,85 @@ int main() {
 //     }
 
 
-    for (int i = 1; i <= 3; i++) {
-        for (int j = 1; j <= 3; j++) {
-            cout << i * j << " ";
-        }
-    cout << "\n";
-    }
+//     for (int i = 1; i <= 3; i++) {
+//         for (int j = 1; j <= 3; j++) {
+//             cout << i * j << " ";
+//         }
+//     cout << "\n";
+//     }
 
 
-// For Loop/The foreach Loop
-    int meineZahlen[5] = {10, 20, 30, 40, 50};
-    for (int num : meineZahlen) {
-        cout << num << "\n";
-    }
+// // For Loop/The foreach Loop
+//     int meineZahlen[5] = {10, 20, 30, 40, 50};
+//     for (int num : meineZahlen) {
+//         cout << num << "\n";
+//     }
+
+    // string dasWort = "Halo";
+    // for (char c : dasWort) {
+    //     cout << c << "\n";
+    // }
+
+
+//For Loop/For Loop Examples, For Loop/For Loop Code Challenge
+    // for (int i = 0; i <= 100; i += 10) {
+    //     cout << i << "\n";
+    // }
+
+    // for (int i = 0; i <= 10; i = i + 2) {
+    //     cout << i << "\n";
+    // }
+
+    // for (int i = 1; i <= 10; i = i +2) {
+    //     cout << i << "\n";
+    // }
+
+    // for (int i = 2; i <= 512; i *= 2) {
+    //     cout << i << "\n";
+    // }
+
+    // int dieZahl = 2;
+    // int i;
+
+    // for (i = 1; i <= 10; i++) {
+    //     cout << dieZahl << " x " << i << " = " << dieZahl * i << "\n";
+    // }
+
+
+//Break and Continue/Break and Continue
+    // for (int i = 0; i < 10; i++) {
+    //     if (i == 4) {
+    //         break;
+    //     }
+    //     cout << i << "\n";
+    // }
+
+    // for (int i = 0; i < 10; i++) {
+    //     if (i == 4) {
+    //         continue;
+    //     }
+    //     cout << i << "\n";
+    // }
+
+    // int i = 0;
+    // while (i < 10) {
+    //     cout << i << "\n";
+    //     i++;
+    //     if (i == 4) {
+    //         break;
+    //     }
+    // }
+
+    // int i = 0;
+    // while (i < 10) {
+    //     if (i == 4) {
+    //         i++;
+    //         continue;
+    //     }
+    //     cout << i << "\n";
+    //     i++;
+    
+    // }
 }
+
 
