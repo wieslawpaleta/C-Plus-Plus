@@ -795,6 +795,35 @@ int main() {
     //     i++;
     
     // }
-}
 
+
+//Arrays/Arrays
+// string dieAutos[4] = {"Volvo", "BMW", "Ford", "Mazda "};
+// cout << dieAutos[0];
+// }
+
+// string dieAutos[4] = {"Volvo", "BMW", "Ford", "Mazda "};
+// dieAutos[0] = "Opel";
+// cout << dieAutos[0];
+
+
+//Arrays/Arrays and Loops
+// string dieAutos[5] = {"Volvo", "BMW", "Ford", "Mazda ", "Tesla"};
+
+// for (int i = 0; i < 5; i++) {
+//     cout << dieAutos[i] << "\n";
+// }
+
+// string dieAutos[5] = {"Volvo", "BMW", "Ford", "Mazda ", "Tesla"};
+
+// for (int i = 0; i < 5; i++) {
+//     cout << i << " = " << dieAutos[i] << "\n";
+// }
+
+int meineZahlen[5] = {10, 20, 30, 40, 50};
+
+for (int i = 0; i < 5; i++) {
+    cout << meineZahlen[i] << "\n";
+}
+}
 
