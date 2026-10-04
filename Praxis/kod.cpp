@@ -15,6 +15,7 @@
 #include <string>
 #include <typeinfo>
 #include <cmath>
+#include <vector>
 using namespace std;
 
 
@@ -820,10 +821,71 @@ int main() {
 //     cout << i << " = " << dieAutos[i] << "\n";
 // }
 
-int meineZahlen[5] = {10, 20, 30, 40, 50};
+// int meineZahlen[5] = {10, 20, 30, 40, 50};
 
-for (int i = 0; i < 5; i++) {
-    cout << meineZahlen[i] << "\n";
-}
+// for (int i = 0; i < 5; i++) {
+//     cout << meineZahlen[i] << "\n";
+// }
+
+// int meineZahlen[5] = {10, 20, 30, 40, 50};
+// for (int dieZahl : meineZahlen){
+//     cout << Zahl << "\n";
+// }
+
+// string dieAutos[5] = {"Volvo", "BMW", "Ford", "Mazda", "Tesla"};
+// for (string dasAuto : dieAutos) {
+//     cout << dasAuto << "\n";
+// }
+
+
+// // Arrats/Omit Array Size
+// string dieAutos[5];
+// dieAutos[0] = "Volvo";
+// dieAutos[1] = "BMW";
+// dieAutos[2] = "Mazda";
+// dieAutos[3] = "Tesla";
+// dieAutos[4] = "Ford";
+
+// for(int i = 0; i < 5; i++) {
+//     cout << dieAutos[i] << "\n";
+// }
+
+// return 0;
+
+
+// vector<string> dieAutos = {"Volvo", "BMW", "Ford"};
+// dieAutos.push_back("Tesla");
+
+// for (string dasAuto : dieAutos) {
+//     cout << dasAuto << "\n";
+// }
+// return 0;
+
+
+// int meineZahlen[5] = {10, 20, 30, 40, 50};
+// int holeArrayLaenge = sizeof(meineZahlen) / sizeof(meineZahlen[0]);
+// cout << sizeof(holeArrayLaenge);
+
+
+// int meineZahlen[5] = {10, 20, 30, 40, 50};
+// for (int i = 0; i < 5; i++) {
+//     cout << meineZahlen[i] << "\n";
+// }
+
+
+// int meineZahlen[5] = {10, 20, 30, 40, 50};
+// for (int i = 0; i < sizeof(meineZahlen) / sizeof(meineZahlen[0]); i++) {
+//     cout << meineZahlen[i] << "\n";
+// }
+
+
+// int meineZahlen[5] = {10, 20, 30, 40, 50};
+// for (int eineZahl : meineZahlen) {
+//     cout << eineZahl << "\n";
+// }
+
+
+//Arrays/Arrays Beispiele aus dem echten Leben
+
 }
 
