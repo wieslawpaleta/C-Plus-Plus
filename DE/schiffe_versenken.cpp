@@ -29,7 +29,7 @@ while (dieTreffer < 4) {
 
         dieTreffer++;
 
-        cout << "Treffer!" << "Noch" << (4-dieTreffer) << "\n\n";
+        cout << "Treffer! " << "Noch " << (4 - dieTreffer) << "\n\n";
     } else {
        cout << "Wasser!\n\n";
     }
