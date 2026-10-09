@@ -2,7 +2,7 @@
 //Introduction, Get Started with C++, Syntax, Statements, Syntax Code Challenge, Output (Print Text), Print Numbers, New Lines, Output Code Challenge, Comments
 /*Ja, ich weiß, wie man mehrzeilige Kommentare verwendet.*/
 //VariablesDeclare, Multiple Variables, Identifiers, Constants, Variables Examples, Variables Code Challenge, User Input, Data Types, Numeric Data Types, Boolean Data Types
-//Character Data Types, String Data Types, auto, Data Types Examples,
+//Character Data Types, String Data Types, auto, Data Types Examples, Enums/Enumerartion
 //
 //
 //
@@ -17,6 +17,12 @@
 #include <cmath>
 #include <vector>
 using namespace std;
+
+struct dasAuto {
+    string dieMarke;
+    string dasModel;
+    int dasJahr;
+};
 
 
 // int main() {
@@ -886,6 +892,119 @@ int main() {
 
 
 //Arrays/Arrays Beispiele aus dem echten Leben
+// int dieAlter[8] = {20, 22, 18, 35, 48, 26, 87, 70};
+
+// float avg, sum = 0;
+// int i;
+
+// int dieLänge = sizeof(dieAlter) / sizeof(dieAlter[0]);
+
+// for (int dasAlter : dieAlter) {
+//     sum += dasAlter;
+// }
+
+// avg = sum / dieLänge;
+
+// cout << "Der Mittelwert ist: " << avg << "\n";
+
+
+// int dieAlter[8] = {20, 22, 18, 35, 48, 26, 87, 70};
+
+// int i;
+
+// int dasMindestAlter = dieAlter[0];
+
+// for (int dasAlter : dieAlter) {
+//     if (dasMindestAlter > dasAlter) {
+//         dasMindestAlter = dasAlter;
+//     }
+// }
+
+// cout << "Das MindestAlter ist: " << dasMindestAlter << "\n";
+
+//Arrays/Multi-Dimensional Arrays
+// string dieBuchstaben[2][4] = {
+//     { "A", "B", "C", "D" },
+//     { "E", "F", "G", "H" }
+// };
+// dieBuchstaben[0][0] = "Z";
+
+// cout << dieBuchstaben[0][2];
+// cout << dieBuchstaben[0][0];
+
+// for (int i = 0; i < 2; i++) {
+//     for (int j = 0; j < 4; j++) {
+//         cout << dieBuchstaben[i][j] << "\n";
+//     }
+// }
+
+
+// string dieBuchstaben1[2][2][2] = {
+//   {
+//     { "A", "B" },
+//     { "C", "D" }
+//   },
+//   {
+//     { "E", "F" },
+//     { "G", "H" }
+//   }
+// };
+
+// for (int i = 0; i < 2; i++) {
+//   for (int j = 0; j < 2; j++) {
+//     for (int k = 0; k < 2; k++) {
+//       cout << dieBuchstaben1[i][j][k] << "\n";
+//     }
+//   }
+// }
+
+
+//Schiffe versenken in ""
+//Arrays/Arrays Code Challenge
+//Structures
+// struct {
+//     int meineZahl;
+//     string meinString;
+// } meineStruktur;
+
+// meineStruktur.meineZahl = 1;
+// meineStruktur.meinString = "Halo Welt!";
+
+// cout << meineStruktur.meineZahl << "\n";
+// cout << meineStruktur.meinString << "\n";
+
+// struct {
+//     string dieMarke;
+//     string dasModel;
+//     int dasJahr;
+// } meinAuto1, meinAuto2;
+
+// meinAuto1.dieMarke = "BMW";
+// meinAuto1.dasModel = "X5";
+// meinAuto1.dasJahr = 1999;
+
+// meinAuto2.dieMarke = "Ford";
+// meinAuto2.dasModel = "Mustang";
+// meinAuto2.dasJahr = 1999;
+
+// cout << meinAuto1.dieMarke << " " << meinAuto1.dasModel << " " << meinAuto1.dasJahr << "\n";
+// cout << meinAuto2.dieMarke << " " << meinAuto2.dasModel << " " << meinAuto2.dasJahr << "\n";
+
+dasAuto meinAuto1;
+meinAuto1.dieMarke = "BMW";
+meinAuto1.dasModel = "X5";
+meinAuto1.dasJahr = 1999;
+
+dasAuto meinAuto2;
+meinAuto2.dieMarke = "Ford";
+meinAuto2.dasModel = "Mustang";
+meinAuto2.dasJahr = 1969;
+
+cout << meinAuto1.dieMarke << " " << meinAuto1.dasModel << " " << meinAuto1.dasJahr << "\n";
+cout << meinAuto2.dieMarke << " " << meinAuto2.dasModel << " " << meinAuto2.dasJahr << "\n";
+
+return 0;
+
 
 }
 
