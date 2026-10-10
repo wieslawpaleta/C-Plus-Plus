@@ -24,6 +24,23 @@ struct dasAuto {
     int dasJahr;
 };
 
+// enum dieStufe {
+//     NIEDRIG,
+//     MITTEL,
+//     HOCH
+// };
+
+// enum dieStufe {
+//     NIEDRIG = 25,
+//     MITTEL = 50,
+//     HOCH = 75
+// };
+
+enum dieStufe {
+    NIEDRIG = 5,
+    MITTEL,
+    HOCH
+};
 
 // int main() {
 //     std::cout << "Wer seid ihr?" << std::endl;
@@ -990,20 +1007,27 @@ int main() {
 // cout << meinAuto1.dieMarke << " " << meinAuto1.dasModel << " " << meinAuto1.dasJahr << "\n";
 // cout << meinAuto2.dieMarke << " " << meinAuto2.dasModel << " " << meinAuto2.dasJahr << "\n";
 
-dasAuto meinAuto1;
-meinAuto1.dieMarke = "BMW";
-meinAuto1.dasModel = "X5";
-meinAuto1.dasJahr = 1999;
+// dasAuto meinAuto1;
+// meinAuto1.dieMarke = "BMW";
+// meinAuto1.dasModel = "X5";
+// meinAuto1.dasJahr = 1999;
 
-dasAuto meinAuto2;
-meinAuto2.dieMarke = "Ford";
-meinAuto2.dasModel = "Mustang";
-meinAuto2.dasJahr = 1969;
+// dasAuto meinAuto2;
+// meinAuto2.dieMarke = "Ford";
+// meinAuto2.dasModel = "Mustang";
+// meinAuto2.dasJahr = 1969;
 
-cout << meinAuto1.dieMarke << " " << meinAuto1.dasModel << " " << meinAuto1.dasJahr << "\n";
-cout << meinAuto2.dieMarke << " " << meinAuto2.dasModel << " " << meinAuto2.dasJahr << "\n";
+// cout << meinAuto1.dieMarke << " " << meinAuto1.dasModel << " " << meinAuto1.dasJahr << "\n";
+// cout << meinAuto2.dieMarke << " " << meinAuto2.dasModel << " " << meinAuto2.dasJahr << "\n";
 
-return 0;
+// return 0;
+
+
+//Enums
+// enum dieStufe meinVar = MITTEL;
+// cout << meinVar;
+
+// return 0;
 
 
 }
