@@ -36,8 +36,14 @@ struct dasAuto {
 //     HOCH = 75
 // };
 
+// enum dieStufe {
+//     NIEDRIG = 5,
+//     MITTEL,
+//     HOCH
+// };
+
 enum dieStufe {
-    NIEDRIG = 5,
+    NIEDRIG = 1,
     MITTEL,
     HOCH
 };
@@ -1028,6 +1034,30 @@ int main() {
 // cout << meinVar;
 
 // return 0;
+
+    // enum dieStufe meinVar = MITTEL;
+
+    // switch (meinVar) {
+    //     case 1:
+    //         cout << "Niedrige Stufe";
+    //         break;
+    //     case 2:
+    //         cout << "Mittelere Stufe";
+    //         break;
+    //     case 3:
+    //         cout << "Hohe Stufe";
+    //         break;
+    // }
+
+    // return 0;
+
+
+//References/Create References
+// string dasEssen = "Pizza";
+// string &dasGericht = dasEssen;
+
+// cout << dasEssen << "\n";
+// cout << dasGericht << "\n";
 
 
 }
