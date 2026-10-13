@@ -1059,6 +1059,75 @@ int main() {
 // cout << dasEssen << "\n";
 // cout << dasGericht << "\n";
 
+// string dasEssen = "Pizza";
+// string &dasGericht = dasEssen;
+
+// dasGericht = "Burger";
+
+// cout << dasEssen << "\n";
+// cout << dasGericht << "\n";
+
+// string dasEssen = "Pizza";
+
+// cout << &dasEssen;
+
+// string dasEssen = "Pizza";
+
+// cout << dasEssen;
+// cout << &dasEssen;
+
+// string dasEssen = "Pizza";
+// string* ptr = &dasEssen;
+
+// cout << dasEssen << "\n";
+// cout << &dasEssen << "\n";
+// cout << ptr << "\n";
+
+// string dasEssen = "Pizza";
+// string* ptr = &dasEssen;
+
+// cout << ptr << "\n";
+// cout << *ptr << "\n";
+
+//Pointers/Create Pointers
+//Pointers/Dereferencing
+//Pointers/Modify Pointers
+
+// string dasEssen = "Pizza";
+// string* ptr = &dasEssen;
+
+// cout << dasEssen << "\n";
+// cout << &dasEssen << "\n";
+// cout << *ptr << "\n";
+// *ptr = "Hamburger";
+// cout << *ptr << "\n";
+// cout << dasEssen << "\n";
+
+
+//Memory Management
+// int meinInt;
+// float meinFloat;
+// double meinDouble;
+// char meinChar;
+
+// cout << sizeof(meinInt) << "\n";
+// cout << sizeof(meinFloat) << "\n";
+// cout << sizeof(meinDouble) << "\n";
+// cout << sizeof(meinChar) << "\n";
+
+// return 0;
+
+
+//Memory Management/new and delete
+// int* ptr = new int;
+// *ptr = 35;
+// cout << *ptr;
+// delete ptr;
+// return 0;
+
+
+
+
 
 }
 
