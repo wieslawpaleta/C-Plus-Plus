@@ -1124,8 +1124,7 @@ int main() {
 // cout << *ptr;
 // delete ptr;
 // return 0;
-
-
+//"Wie viele Gäste?"" ist in der anderen Datei
 
 
 
