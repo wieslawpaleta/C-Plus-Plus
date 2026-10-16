@@ -48,6 +48,10 @@ enum dieStufe {
     HOCH
 };
 
+void myFunction() {
+    cout << "Spielen wir Schach! ";
+}
+
 // int main() {
 //     std::cout << "Wer seid ihr?" << std::endl;
 //     return 0;
@@ -1127,6 +1131,11 @@ int main() {
 //"Wie viele Gäste?"" ist in der anderen Datei
 
 
-
+//Functions/Functions
+// myFunction();
+// myFunction();
+// myFunction();
+// myFunction();
+// return 0;
 }
 
