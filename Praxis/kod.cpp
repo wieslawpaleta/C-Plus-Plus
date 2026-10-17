@@ -52,6 +52,18 @@ void myFunction() {
     cout << "Spielen wir Schach! ";
 }
 
+void myFunction1(string fname) {
+    cout << fname << " Schmidt\n";
+}
+
+void myFunction2(string dasLand = "Deutschland") {
+    cout << dasLand << "\n";
+}
+
+void meinAlter(string fname, int meinAlter) {
+    cout << fname << " Schimdt. " << meinAlter << " Jahre alt. \n";
+}
+
 // int main() {
 //     std::cout << "Wer seid ihr?" << std::endl;
 //     return 0;
@@ -1137,5 +1149,20 @@ int main() {
 // myFunction();
 // myFunction();
 // return 0;
+
+//Functions Parameteres/Function Parameters
+// myFunction1("Helmut");
+// myFunction1("Stefan");
+// myFunction1("Johan");
+// return 0;
+
+//Functions Parameters/Default Parameter
+// myFunction2();
+// myFunction2("Polen");
+// return 0;
+
+//Function Parameters/Multiple Parameters
+
+
 }
 
