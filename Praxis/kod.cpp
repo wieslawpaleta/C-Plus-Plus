@@ -18,11 +18,11 @@
 #include <vector>
 using namespace std;
 
-struct dasAuto {
-    string dieMarke;
-    string dasModel;
-    int dasJahr;
-};
+// struct dasAuto {
+//     string dieMarke;
+//     string dasModel;
+//     int dasJahr;
+// };
 
 // enum dieStufe {
 //     NIEDRIG,
@@ -42,32 +42,48 @@ struct dasAuto {
 //     HOCH
 // };
 
-enum dieStufe {
-    NIEDRIG = 1,
-    MITTEL,
-    HOCH
-};
+// enum dieStufe {
+//     NIEDRIG = 1,
+//     MITTEL,
+//     HOCH
+// };
 
-void myFunction() {
-    cout << "Spielen wir Schach! ";
-}
+// void myFunction() {
+//     cout << "Spielen wir Schach! ";
+// }
 
-void myFunction1(string fname) {
-    cout << fname << " Schmidt\n";
-}
+// void myFunction1(string fname) {
+//     cout << fname << " Schmidt\n";
+// }
 
-void myFunction2(string dasLand = "Deutschland") {
-    cout << dasLand << "\n";
-}
+// void myFunction2(string dasLand = "Deutschland") {
+//     cout << dasLand << "\n";
+// }
 
-void meinAlter(string fname, int meinAlter) {
-    cout << fname << " Schimdt. " << meinAlter << " Jahre alt. \n";
-}
+// void meinAlter(string fname, int meinAlter) {
+//     cout << fname << " Schimdt. " << meinAlter << " Jahre alt. \n";
+// }
+
+// void meinFunction(string fname, int dasAlter) {
+//     cout << fname << " Refsnes. " << dasAlter << " Jahre alt. \n";
+// }
+
+// int meinFunction1(int x) {
+//     return 5 + x;
+// }
+
+// int meinFunction2(int x, int y) {
+//     return x + y;
+// }
 
 // int main() {
 //     std::cout << "Wer seid ihr?" << std::endl;
 //     return 0;
 // }
+
+int dasDoppelSpiel(int x) {
+    return x * 2;
+}
 
 
 int main() {
@@ -1162,7 +1178,27 @@ int main() {
 // return 0;
 
 //Function Parameters/Multiple Parameters
+// meinFunction("Liam", 3);
+// meinFunction("Jenny", 14);
+// meinFunction("Anja", 30);
+// return 0;
 
+//Function Parameters/Return Values
+// cout << meinFunction1(3) << endl;
+// return 0;
+// cout << meinFunction2(5, 3) << endl;
+// return 0;
+
+// int z = meinFunction2(5, 3);
+// cout << z << endl;
+// return 0;
+
+// for (int i = 1; i <= 5; i++) {
+//     cout << "Das Doppelte von " << i << " ist " << dasDoppelSpiel(i) << endl;
+// }
+// return 0;
+
+// Function Parameters/Pass By Reference
 
 }
 
