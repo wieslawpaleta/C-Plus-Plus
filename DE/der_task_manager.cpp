@@ -54,11 +54,34 @@ class AufgabenManager {
             }
             std::cout << "Aufgabe mit ID " << id << " nicht gefunden. (Nie znaleziono zadania o ID " << id << ".)\n";
         }
+
+        // (Diese Methoden kommen in die Klasse AufgabenManager / Te metody trafiąją do klasy AufgabenManager)
+            // Speichert alle Aufgaben in eine Textdatei (Zapisuje wszystkie zadania do pliku tekstowego)
+            void speichernInDatei(const std::string& dateiName) const {
+                std::ofstream datei(dateiName); // Öffnet die Datei zum Schreiben Otwiera plik do zapisu)
+                if (!datei.is.open()) {
+                    
+                }
+            }
 };
 
 int main() {
     AufgabenManager manager; // Erstellt eine Instanz des Managers (Tworzy instancję menedżera)
 
     // Aufgaben hinzufügen (Dodawanie zadań)
-    
+    manager.aufgabeHinzufuegen("C++ Portfolio-Projekt starten");
+    manager.aufgabeHinzufuegen("Über Klassen und Vektoren lernen");
+    manager.aufgabeHinzufuegen("Dateispeicherung implementieren");
+
+    std::cout << "--- Alle Aufgaben (Wszystkie zadania) ---\n";
+    manager.alleAnzeigen();
+
+    // Eine Aufgabe als erledigt markieren (Oznaczanie zadania jako wykonane)
+    std::cout << "\n";
+    manager.alsErledigtMarkieren(1);
+
+    std::cout << "\n--- Aktualisierte Liste (Zaktualizowano lista) ---\n";
+    manager.alleAnzeigen();
+
+    return 0;
 }
