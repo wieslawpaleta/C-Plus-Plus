@@ -57,13 +57,52 @@ class AufgabenManager {
 
         // (Diese Methoden kommen in die Klasse AufgabenManager / Te metody trafiąją do klasy AufgabenManager)
             // Speichert alle Aufgaben in eine Textdatei (Zapisuje wszystkie zadania do pliku tekstowego)
-            void speichernInDatei(const std::string& dateiName) const {
-                std::ofstream datei(dateiName); // Öffnet die Datei zum Schreiben Otwiera plik do zapisu)
-                if (!datei.is.open()) {
-                    
-                }
+        void speichernInDatei(const std::string& dateiName) const {
+            std::ofstream datei(dateiName); // Öffnet die Datei zum Schreiben (Otwiera plik do zapisu)
+            if (!datei.is_open()) {
+                std::cout << "Fehler beim Speichern der Datei! (Błąd podczas zapisu pliku!)\n";
+                return;
+        }
+
+            for (const auto& aufgabe : aufgabenListe) {
+                // Format: ID;Erledigt(1/0);Titel (Format: ID;Wykonane(1/0);Tytuł)
+                datei << aufgabe.id << ";" << (aufgabe.erledigt ? 1 : 0) << ";" << aufgabe.titel << "\n";
+        }
+            std::cout << "Aufgaben erfolgreich in " << dateiName << " gespeichert. (Zadania zostały pomyślnie zapisane w " << dateiName << ".)\n";
             }
-};
+
+            // Lädt Aufgaben aus einer Textdatei (Wczytuje zadania z pliku tekstowego)
+            void ladenAusDatei(const std::string& dateiName) {
+                std::ifstream datei(dateiName);
+                if (!datei.is_open()) {
+                    std::cout << "Keine bestehende Datei gefunden. Starte mit leerer Liste. (Nie znaleziono istniejącego pliku. Start z pustą listą.)\n";
+                    return;
+                }
+            
+                aufgabenListe.clear();
+                std::string zeile;
+                int maxId = 0;
+
+                while (std::getline(datei, zeile)) {
+                    std::stringstream ss(zeile);
+                    std::string idStr, erledigtStr, titel;
+
+                    if (std::getline(ss, idStr, ';') && std::getline(ss, erledigtStr, ';') && std::getline(ss, titel)) {
+                        int id = std::stoi(idStr);
+                        bool erledigt = (std::stoi(erledigtStr) == 1);
+
+                        Aufgabe aufgabe(id, titel);
+                        aufgabe.erledigt = erledigt;
+                        aufgabenListe.push_back(aufgabe);
+
+                        if (id > maxId) {
+                            maxId = id;
+                        }
+                    }
+                }
+
+                naechsteId = maxId + 1; // 
+
 
 int main() {
     AufgabenManager manager; // Erstellt eine Instanz des Managers (Tworzy instancję menedżera)
