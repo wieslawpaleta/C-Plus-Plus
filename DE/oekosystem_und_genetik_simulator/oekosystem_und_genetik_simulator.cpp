@@ -77,3 +77,21 @@ public:
         return energie > 0;
     }
 };
+
+int main() {
+    std::cout << "--- Oekosystem Simulator: Schritt 2 ---" << std::endl;
+
+    // Erstelle einen Organismus mit DNA-Laenge 10, 50 Energie und Startposition (0, 0)
+    // (Stwórz organizm o długości DNA 10, 50 energii i pozycji początkowej (0, 0))
+    Organismus org(10, 50, 0, 0);
+
+    // Zeige den initialen Status an (Wyświetl stan początkowy)
+    org.statusAnzeigen();
+
+    // Bewege den Organismus (Przesuń organizm)
+    org.bewegen(3, 4);
+    std::cout << "Nach der Bewegung (Po ruchu):" << std::endl;
+    org.statusAnzeigen();
+
+    return 0;
+}
