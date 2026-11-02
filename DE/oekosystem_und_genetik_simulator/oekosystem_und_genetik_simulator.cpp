@@ -61,11 +61,21 @@ public:
                   << " | DNA: " << dna.getSequenz() << std::endl;
     }
 
-    // Methode zum Bewegen des Organismus (Metoda poruszająca organizmem)
-    void bewegen(int deltaX, int deltaY) {
-        xPosition += deltaX;
-        yPosition += deltaY;
+    // Methode zum Bewegen des Organismus innerhalb der Weltgranzen (Metoda poruszająca organizmem w granicach świata)
+    void bewegen(int maxGrenze) {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> schritt(-1, 1);
+
+        xPosition += schritt(gen);
+        yPosition += schritt(gen);
         
+        // Begrenzung der Welt, damit niemand herausfaellt (Ograniczenie świata, aby nikt nie wypadł poza planszę)
+        if (xPosition < 0) xPosition = 0;
+        if (xPosition > maxGrenze) xPosition = maxGrenze;
+        if (yPosition < 0) yPosition = 0;
+        if (yPosition > maxGrenze) yPosition = maxGrenze;
+
         // Energieverlust bei Bewegung (Utrata energii podczas ruchu)
         if (energie > 0) {
             energie--;
@@ -77,6 +87,27 @@ public:
         return energie > 0;
     }
 };
+
+// Klasse zur Verwaltung des Oekosystems und aller Organismen (Klasa do zarządzania ekosystemem i wszystkimi organizmami)
+class Welt {
+private:
+    int groesse;
+    std::vector<Organismus> organismen;
+
+public:
+    // Konstruktor für die Welt mit einer bestimten Groesse (Konstruktor świata o określonym rozmiarze)
+    Welt(int weltGroesse) : groesse(weltGroesse) {}
+
+    // Fügt einen Organismus zur Welt hinzu (Dodaje organizm do świata)
+    void organismusHinzufuegen(const Organismus& org) {
+        organismen.push_back(org);
+    }
+
+    // Führt einen Simulationsschritt für alle Organismen aus (Wykonuje krok symulacji dla wszystkich organizmów)
+    void simulieren() {
+        std::cout << "\n--- Simulationsschritt wird gestartet (Rozpoczyna się krok symulacji) ---" << std::endl;
+    }
+}
 
 int main() {
     std::cout << "--- Oekosystem Simulator: Schritt 2 ---" << std::endl;
