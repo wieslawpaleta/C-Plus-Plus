@@ -2,12 +2,13 @@
 #include <string>
 #include <vector>
 #include <random>
+#include <algorithm>
 
 // Klasse zur Darstellung der DNA eines Organismus (Klasa reprezentująca DNA organizmu)
 class DNA {
 private:
     std::string genSequenz;
-    const std::string basen = "ATCG";
+    std::string basen = "ATCG"; // 'const' wurde entfernt, damit der Vektor verschieben kann ('const' zostało usunięte, aby wektor mógł przesuwać obiekty)
 
 public:
     // Konstruktor: Generiert eine zufällige DNA-Sequenz (Konstruktor: Generuje losową sekwencję DNA)
@@ -56,12 +57,12 @@ public:
 
     // Methode zur Anzeige des aktuellen Status (Metoda wyświetlająca aktualny stan)
     void statusAnzeigen() const {
-        std::cout << "Position: (" << xPosition << ", " << yPosition 
+        std::cout << "Pos: (" << xPosition << ", " << yPosition 
                   << ") | Energie: " << energie 
                   << " | DNA: " << dna.getSequenz() << std::endl;
     }
 
-    // Methode zum Bewegen des Organismus innerhalb der Weltgranzen (Metoda poruszająca organizmem w granicach świata)
+    // Methode zum Bewegen des Organismus innerhalb der Weltgrenzen (Metoda poruszająca organizmem w granicach świata)
     void bewegen(int maxGrenze) {
         std::random_device rd;
         std::mt19937 gen(rd());
@@ -69,7 +70,7 @@ public:
 
         xPosition += schritt(gen);
         yPosition += schritt(gen);
-        
+
         // Begrenzung der Welt, damit niemand herausfaellt (Ograniczenie świata, aby nikt nie wypadł poza planszę)
         if (xPosition < 0) xPosition = 0;
         if (xPosition > maxGrenze) xPosition = maxGrenze;
@@ -95,7 +96,7 @@ private:
     std::vector<Organismus> organismen;
 
 public:
-    // Konstruktor für die Welt mit einer bestimten Groesse (Konstruktor świata o określonym rozmiarze)
+    // Konstruktor für die Welt mit einer bestimmten Groesse (Konstruktor świata o określonym rozmiarze)
     Welt(int weltGroesse) : groesse(weltGroesse) {}
 
     // Fügt einen Organismus zur Welt hinzu (Dodaje organizm do świata)
@@ -106,23 +107,49 @@ public:
     // Führt einen Simulationsschritt für alle Organismen aus (Wykonuje krok symulacji dla wszystkich organizmów)
     void simulieren() {
         std::cout << "\n--- Simulationsschritt wird gestartet (Rozpoczyna się krok symulacji) ---" << std::endl;
+        
+        // Lasse alle Organismen bewegen (Pozwól wszystkim organizmom się poruszyć)
+        for (auto& org : organismen) {
+            org.bewegen(groesse);
+        }
+
+        // Entferne tote Organismen aus dem Vector (Usuń martwe organizmy z wektora)
+        organismen.erase(
+            std::remove_if(organismen.begin(), organismen.end(), [](const Organismus& o) {
+                return !o.lebt();
+            }),
+            organismen.end()
+        );
     }
-}
+
+    // Zeigt den Status der gesamten Welt an (Wyświetla stan całego świata)
+    void weltStatusAnzeigen() const {
+        std::cout << "Aktuelle Anzahl Organismen (Aktualna liczba organizmów): " << organismen.size() << std::endl;
+        for (size_t i = 0; i < organismen.size(); ++i) {
+            std::cout << "Organismus " << i << " -> ";
+            organismen[i].statusAnzeigen();
+        }
+    }
+};
 
 int main() {
-    std::cout << "--- Oekosystem Simulator: Schritt 2 ---" << std::endl;
+    std::cout << "--- Oekosystem Simulator: Schritt 3 (Welt) ---" << std::endl;
 
-    // Erstelle einen Organismus mit DNA-Laenge 10, 50 Energie und Startposition (0, 0)
-    // (Stwórz organizm o długości DNA 10, 50 energii i pozycji początkowej (0, 0))
-    Organismus org(10, 50, 0, 0);
+    // Erstelle eine Welt mit der Groesse 10x10 (Stwórz świat o wielkości 10x10)
+    Welt meineWelt(10);
 
-    // Zeige den initialen Status an (Wyświetl stan początkowy)
-    org.statusAnzeigen();
+    // Füge zwei Organismen hinzu, einer davon mit sehr wenig Energie (Dodaj dwa organizmy, jeden z nich z bardzo małą ilością energii)
+    meineWelt.organismusHinzufuegen(Organismus(8, 10, 5, 5)); // Viel Energie (Dużo energii)
+    meineWelt.organismusHinzufuegen(Organismus(8, 2, 2, 2));  // Weniger Energie, wird bald sterben (Mniej energii, wkrótce umrze)
 
-    // Bewege den Organismus (Przesuń organizm)
-    org.bewegen(3, 4);
-    std::cout << "Nach der Bewegung (Po ruchu):" << std::endl;
-    org.statusAnzeigen();
+    std::cout << "\nInitialer Zustand der Welt (Początkowy stan świata):" << std::endl;
+    meineWelt.weltStatusAnzeigen();
+
+    // Simuliere 3 Schritte (Symuluj 3 kroki)
+    for (int i = 0; i < 3; ++i) {
+        meineWelt.simulieren();
+        meineWelt.weltStatusAnzeigen();
+    }
 
     return 0;
 }
