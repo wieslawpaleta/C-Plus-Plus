@@ -42,6 +42,17 @@ public:
     }
 };
 
+// Klasse zur Darstellung von Nahrung im Oekosystem (Klasa przedstawiająca jedzenie w ekosystemie)
+class Nahrung {
+public:
+    int xPosition;
+    int yPosition;
+    int energieWert;
+
+    // Konstruktor für die Nahrung (Konstruktor dla jedzenia)
+    Nahrung(int x, int y, int energie) : xPosition(x), yPosition(y), energieWert(energie) {}
+};
+
 // Klasse zur Darstellung eines Organismus im Oekosystem (Klasa reprezentująca organizm w ekosystemie)
 class Organismus {
 private:
@@ -83,6 +94,17 @@ public:
         }
     }
 
+    // Energie hinzufügen, wenn Nahrung konsumiert wird (Dodawanie energii po skonsumowaniu jedzenia)
+    void energieErhoehen(int menge) {
+        energie += menge;
+    }
+
+    // Getter für X-Position (Getter dla pozycji X)
+    int getX() const { return xPosition; }
+
+    // Getter für Y-Position (Getter dla pozycji Y)
+    int getY() const { return yPosition; }
+
     // Prüft, ob der Organismus noch am Leben ist (Sprawdza, czy organizm nadal żyje)
     bool lebt() const {
         return energie > 0;
@@ -94,6 +116,7 @@ class Welt {
 private:
     int groesse;
     std::vector<Organismus> organismen;
+    std::vector<Nahrung> nahrungen;
 
 public:
     // Konstruktor für die Welt mit einer bestimmten Groesse (Konstruktor świata o określonym rozmiarze)
@@ -104,6 +127,11 @@ public:
         organismen.push_back(org);
     }
 
+    // Fügt Nahrung zur Welt hinzu (Dodaje jedzenie do świata)
+    void nahrungHinzufügen(const Nahrung& n) {
+        nahrungen.push_back(n);
+    }
+
     // Führt einen Simulationsschritt für alle Organismen aus (Wykonuje krok symulacji dla wszystkich organizmów)
     void simulieren() {
         std::cout << "\n--- Simulationsschritt wird gestartet (Rozpoczyna się krok symulacji) ---" << std::endl;
@@ -111,6 +139,11 @@ public:
         // Lasse alle Organismen bewegen (Pozwól wszystkim organizmom się poruszyć)
         for (auto& org : organismen) {
             org.bewegen(groesse);
+        }
+
+        // Interaktion: Prüfen, ob Organismen Nahrung finden (Interakcja: czy organizmy znajdują jedzenie)
+        for (auto orgIt = organismen.begin(); orgIt != organismen.end(); ++orgIt) {
+            for (auto nahIt = nahrungen.begin(); nahIt)
         }
 
         // Entferne tote Organismen aus dem Vector (Usuń martwe organizmy z wektora)
