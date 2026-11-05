@@ -143,7 +143,19 @@ public:
 
         // Interaktion: Prüfen, ob Organismen Nahrung finden (Interakcja: czy organizmy znajdują jedzenie)
         for (auto orgIt = organismen.begin(); orgIt != organismen.end(); ++orgIt) {
-            for (auto nahIt = nahrungen.begin(); nahIt)
+            for (auto nahIt = nahrungen.begin(); nahIt != nahrungen.end(); ) {
+                if (orgIt->getX() == nahIt->xPosition && orgIt->getY() == nahIt->yPosition) {
+                    // Organismus frisst die Nahrung (Organizm zjada jedzenie)
+                    orgIt->energieErhoehen(nahIt->energieWert);
+                    orgIt->energieErhoehen(nahIt->energieWert);
+                    std::cout << "Ein Organismus hat Nahrung gefunden und Energie erhalten! (Organizm znalazł jedzenie i zyskał energię!)" << std::endl;
+
+                    // Entferne die konsumierte Nahrung aus dem Vektor (Usuń skonsumowane jedzenie z wektora)
+                    nahIt = nahrungen.erase(nahIt);
+                } else {
+                    ++nahIt;
+                }
+            }
         }
 
         // Entferne tote Organismen aus dem Vector (Usuń martwe organizmy z wektora)
@@ -157,7 +169,8 @@ public:
 
     // Zeigt den Status der gesamten Welt an (Wyświetla stan całego świata)
     void weltStatusAnzeigen() const {
-        std::cout << "Aktuelle Anzahl Organismen (Aktualna liczba organizmów): " << organismen.size() << std::endl;
+        std::cout << "Anzahl Organismen (Liczba organizmów): " << organismen.size() 
+                  << " | Anzahl Nahrungsquellen (Liczba źródeł jedzenia): " << nahrungen.size() << std::endl;
         for (size_t i = 0; i < organismen.size(); ++i) {
             std::cout << "Organismus " << i << " -> ";
             organismen[i].statusAnzeigen();
@@ -171,9 +184,11 @@ int main() {
     // Erstelle eine Welt mit der Groesse 10x10 (Stwórz świat o wielkości 10x10)
     Welt meineWelt(10);
 
-    // Füge zwei Organismen hinzu, einer davon mit sehr wenig Energie (Dodaj dwa organizmy, jeden z nich z bardzo małą ilością energii)
-    meineWelt.organismusHinzufuegen(Organismus(8, 10, 5, 5)); // Viel Energie (Dużo energii)
-    meineWelt.organismusHinzufuegen(Organismus(8, 2, 2, 2));  // Weniger Energie, wird bald sterben (Mniej energii, wkrótce umrze)
+    // Füge einen Organismus bei Position (5, 5) mit wenig Energie hinzu (Dodaj organizm na pozycji (5, 5) z małą ilością energii)
+    meineWelt.organismusHinzufuegen(Organismus(8, 3, 5, 5));
+    
+    //Füge Nahrung genau dorthin hinzu, wo sich der Organismus bewegen könnte (Dodaj jedzenie dokładnie tam, dokąd może się ruszyć organizm)
+    meineWelt.nahrungHinzufügen(Nahrung(5, 4, 10)); // 10 Energiepunkte (10 punktów energii)
 
     std::cout << "\nInitialer Zustand der Welt (Początkowy stan świata):" << std::endl;
     meineWelt.weltStatusAnzeigen();
