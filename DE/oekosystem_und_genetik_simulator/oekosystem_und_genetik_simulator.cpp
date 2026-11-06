@@ -7,19 +7,24 @@
 // Klasse zur Darstellung der DNA eines Organismus (Klasa reprezentująca DNA organizmu)
 class DNA {
 private:
-    std::string genSequenz;
-    std::string basen = "ATCG"; // 'const' wurde entfernt, damit der Vektor verschieben kann ('const' zostało usunięte, aby wektor mógł przesuwać obiekty)
+    std::string genSequenz; // Speichert die Gen-Sequenz als String (Przechowuje sekwencję genów jako string)
+    std::string basen = "ATCG"; // Verfügbare Basen für die DNA (Dostępne zasady dla DNA)
 
 public:
     // Konstruktor: Generiert eine zufällige DNA-Sequenz (Konstruktor: Generuje losową sekwencję DNA)
     DNA(size_t laenge) {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<> dis(0, 3);
+        std::random_device rd; // Initialisiert den HardwareZufallsgenerator (Inicjalizuje sprzętowy generator losowy)
+        std::mt19937 gen(rd()); // Startet den Mersenne-Twister Zufallsgenerator (Uruchamia generator liczb losowych Mersenne Twister)
+        std::uniform_int_distribution<> dis(0, 3); // Definiert einen Bereich von 0 bis 3 für die Basen (Definiuje zakres od 0 do 3 dla zasad)
 
-        for (size_t i = 0; i < laenge; ++i) {
-            genSequenz += basen[dis(gen)];
+        for (size_t i = 0; i < laenge; ++i) { // Schleife läuft für jede Position der gewünschten Länge (Pętla wykonuje się dla każdej pozycji żądanej długości)
+            genSequenz += basen[dis(gen)]; // Fuegt zufaellig eine Basis (A, T, C oder G) hinzu (Losowo dodaje zasadę A, T, C lub G)
         }
+    }
+
+    // Konstruktor fuer Nachkommen: Kopiert und mutiert Eltern-DNA (Konstruktor dla potomka: Kopiuje i mutuje DNA rodzica)
+    DNA(cosnt DNA& elternDna, double mutationsRate) {
+        genSequenz = eltern
     }
 
     // Methode zur Mutation der DNA basierend auf einer Mutationsrate (Metoda mutacji DNA oparta na współczynniku mutacji)
