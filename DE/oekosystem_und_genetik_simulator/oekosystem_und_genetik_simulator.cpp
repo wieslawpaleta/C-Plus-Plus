@@ -7,70 +7,70 @@
 // Klasse zur Darstellung der DNA eines Organismus (Klasa reprezentująca DNA organizmu)
 class DNA {
 private:
-    std::string genSequenz; // Speichert die Gen-Sequenz als String (Przechowuje sekwencję genów jako string)
-    std::string basen = "ATCG"; // Verfügbare Basen für die DNA (Dostępne zasady dla DNA)
+    std::string genSequenz;         // Speichert die Gen-Sequenz als String (Przechowuje sekwencję genów jako string)
+    std::string basen = "ATCG";     // Verfügbare Basen für die DNA (Dostępne zasady dla DNA)
 
 public:
-    // Konstruktor: Generiert eine zufällige DNA-Sequenz (Konstruktor: Generuje losową sekwencję DNA)
+    // 1. Konstruktor: Generiert eine zufällige DNA-Sequenz (Konstruktor: Generuje losową sekwencję DNA)
     DNA(size_t laenge) {
-        std::random_device rd; // Initialisiert den HardwareZufallsgenerator (Inicjalizuje sprzętowy generator losowy)
-        std::mt19937 gen(rd()); // Startet den Mersenne-Twister Zufallsgenerator (Uruchamia generator liczb losowych Mersenne Twister)
+        std::random_device rd;                     // Initialisiert den Hardware-Zufallsgenerator (Inicjalizuje sprzętowy generator losowy)
+        std::mt19937 gen(rd());                    // Startet den Mersenne-Twister Zufallsgenerator (Uruchomiler generator Mersenne-Twister)
         std::uniform_int_distribution<> dis(0, 3); // Definiert einen Bereich von 0 bis 3 für die Basen (Definiuje zakres od 0 do 3 dla zasad)
 
-        for (size_t i = 0; i < laenge; ++i) { // Schleife läuft für jede Position der gewünschten Länge (Pętla wykonuje się dla każdej pozycji żądanej długości)
-            genSequenz += basen[dis(gen)]; // Fuegt zufaellig eine Basis (A, T, C oder G) hinzu (Losowo dodaje zasadę A, T, C lub G)
+        for (size_t i = 0; i < laenge; ++i) {      // Schleife läuft für jede Position der gewünschten Länge (Pętla wykonuje się dla każdej pozycji żądanej długości)
+            genSequenz += basen[dis(gen)];         // Fügt zufällig eine Basis (A, T, C oder G) hinzu (Losowo dodaje zasadę A, T, C lub G)
         }
     }
 
-    // Konstruktor fuer Nachkommen: Kopiert und mutiert Eltern-DNA (Konstruktor dla potomka: Kopiuje i mutuje DNA rodzica)
-    DNA(cosnt DNA& elternDna, double mutationsRate) {
-        genSequenz = eltern
-    }
+    // 2. Konstruktor für Nachkommen: Kopiert und mutiert Eltern-DNA (Konstruktor dla potomka: Kopiuje i mutuje DNA rodzica)
+    DNA(const DNA& elternDna, double mutationsRate) {
+        genSequenz = elternDna.genSequenz;         // Übernimmt die exakte Sequenz des Elternteils (Przejmuje dokładną sekwencję rodzica)
+        std::random_device rd;                     // Zufallsquelle initialisieren (Inicjalizacja źródła losowości)
+        std::mt19937 gen(rd());                    // Zufallsgenerator starten (Uruchomienie generatora losowego)
+        std::uniform_real_distribution<> wahrscheinlichkeit(0.0, 1.0); // Wahrscheinlichkeit von 0 bis 1 (Prawdopodobieństwo od 0 do 1)
+        std::uniform_int_distribution<> basenAuswahl(0, 3);          // Auswahlindex für neue Basis (Indeks wyboru nowej zasady)
 
-    // Methode zur Mutation der DNA basierend auf einer Mutationsrate (Metoda mutacji DNA oparta na współczynniku mutacji)
-    void mutieren(double mutationsRate) {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_real_distribution<> wahrscheinlichkeit(0.0, 1.0);
-        std::uniform_int_distribution<> basenAuswahl(0, 3);
-
-        for (size_t i = 0; i < genSequenz.length(); ++i) {
-            if (wahrscheinlichkeit(gen) < mutationsRate) {
-                genSequenz[i] = basen[basenAuswahl(gen)];
+        for (size_t i = 0; i < genSequenz.length(); ++i) {           // Geht jedes Zeichen der DNA durch (Przechodzi przez każdy znak DNA)
+            if (wahrscheinlichkeit(gen) < mutationsRate) {           // Prüft, ob Zufallswert kleiner als Mutationsrate ist (Sprawdza, czy wartość losowa jest mniejsza od współczynnika mutacji)
+                genSequenz[i] = basen[basenAuswahl(gen)];            // Mutiert das Gen zu einer neuen Basis (Mutuje gen do nowej zasady)
             }
         }
     }
 
     // Getter für die Gen-Sequenz (Getter zwracający sekwencję genów)
     std::string getSequenz() const {
-        return genSequenz;
+        return genSequenz; // Gibt den Sequenz-String zurück (Zwraca łańcuch sekwencji)
     }
 };
 
 // Klasse zur Darstellung von Nahrung im Oekosystem (Klasa przedstawiająca jedzenie w ekosystemie)
 class Nahrung {
 public:
-    int xPosition;
-    int yPosition;
-    int energieWert;
+    int xPosition;   // X-Koordinate der Nahrung (Współrzędna X jedzenia)
+    int yPosition;   // Y-Koordinate der Nahrung (Współrzędna Y jedzenia)
+    int energieWert; // Menge an Energie, die die Nahrung bringt (Ilość energii, jaką daje jedzenie)
 
-    // Konstruktor für die Nahrung (Konstruktor dla jedzenia)
+    // Konstruktor der Nahrungs-Klasse (Konstruktor klasy jedzenia)
     Nahrung(int x, int y, int energie) : xPosition(x), yPosition(y), energieWert(energie) {}
 };
 
 // Klasse zur Darstellung eines Organismus im Oekosystem (Klasa reprezentująca organizm w ekosystemie)
 class Organismus {
 private:
-    DNA dna;
-    int energie;
-    int xPosition;
-    int yPosition;
+    DNA dna;         // Das DNA-Objekt des Organismus (Obiekt DNA organizmu)
+    int energie;     // Verbleibende Energiepunkte (Pozostałe punkty energii)
+    int xPosition;   // Aktuelle X-Position im Raster (Aktualna pozycja X na siatce)
+    int yPosition;   // Aktuelle Y-Position im Raster (Aktualna pozycja Y na siatce)
 
 public:
-    // Konstruktor mit Initialisierungsliste (Konstruktor z listą inicjalizacyjną)
+    // Konstruktor für die Erstanstellung (Konstruktor dla pierwszej generacji)
     Organismus(size_t dnaLaenge, int startEnergie, int startX, int startY) 
         : dna(dnaLaenge), energie(startEnergie), xPosition(startX), yPosition(startY) {}
 
+    // Konstruktor für Nachkommen (Erbt DNA und bekommt Position/Energie) (Konstruktor dla potomków - dziedziczy DNA i otrzymuje pozycję/energię)
+    Organismus(const DNA& elternDna, int startX, int startY, int startEnergie)
+        : dna(elternDna, 0.15), energie(startEnergie), xPosition(startX), yPosition(startY) {} // 15% Mutationsrate (15% współczynnik mutacji)
+        
     // Methode zur Anzeige des aktuellen Status (Metoda wyświetlająca aktualny stan)
     void statusAnzeigen() const {
         std::cout << "Pos: (" << xPosition << ", " << yPosition 
