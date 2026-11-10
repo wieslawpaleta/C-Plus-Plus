@@ -43,7 +43,7 @@ public:
     }
 };
 
-// Klasse zur Darstellung von Nahrung im Oekosystem (Klasa przedstawiająca jedzenie w ekosystemie)
+// Klasse zur Darstellung von Nahrung im Oekosystem (Klasa reprezentująca jedzenie w ekosystemie)
 class Nahrung {
 public:
     int xPosition;   // X-Koordinate der Nahrung (Współrzędna X jedzenia)
@@ -70,132 +70,145 @@ public:
     // Konstruktor für Nachkommen (Erbt DNA und bekommt Position/Energie) (Konstruktor dla potomków - dziedziczy DNA i otrzymuje pozycję/energię)
     Organismus(const DNA& elternDna, int startX, int startY, int startEnergie)
         : dna(elternDna, 0.15), energie(startEnergie), xPosition(startX), yPosition(startY) {} // 15% Mutationsrate (15% współczynnik mutacji)
-        
-    // Methode zur Anzeige des aktuellen Status (Metoda wyświetlająca aktualny stan)
+
+    // Methode zur Anzeige des Status (Metoda wyświetlająca stan)
     void statusAnzeigen() const {
         std::cout << "Pos: (" << xPosition << ", " << yPosition 
                   << ") | Energie: " << energie 
                   << " | DNA: " << dna.getSequenz() << std::endl;
     }
 
-    // Methode zum Bewegen des Organismus innerhalb der Weltgrenzen (Metoda poruszająca organizmem w granicach świata)
+    // Methode zum Bewegen des Organismus (Metoda poruszająca organizmem)
     void bewegen(int maxGrenze) {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<> schritt(-1, 1);
+        std::random_device rd;                     // Zufallsquelle (Źródło losowości)
+        std::mt19937 gen(rd());                    // Generator (Generator)
+        std::uniform_int_distribution<> schritt(-1, 1); // Schrittweite -1, 0 oder 1 (Krok -1, 0 lub 1)
 
-        xPosition += schritt(gen);
-        yPosition += schritt(gen);
+        xPosition += schritt(gen);                 // Verändert X-Position zufällig (Zmienia pozycję X losowo)
+        yPosition += schritt(gen);                 // Verändert Y-Position zufällig (Zmienia pozycję Y losowo)
 
-        // Begrenzung der Welt, damit niemand herausfaellt (Ograniczenie świata, aby nikt nie wypadł poza planszę)
-        if (xPosition < 0) xPosition = 0;
-        if (xPosition > maxGrenze) xPosition = maxGrenze;
-        if (yPosition < 0) yPosition = 0;
-        if (yPosition > maxGrenze) yPosition = maxGrenze;
+        // Begrenzung innerhalb der Welt (Ograniczenie w granicach świata)
+        if (xPosition < 0) xPosition = 0;          // Links nicht herausfallen (Nie wypada z lewej)
+        if (xPosition > maxGrenze) xPosition = maxGrenze; // Rechts nicht herausfallen (Nie wypada z prawej)
+        if (yPosition < 0) yPosition = 0;          // Unten nie herausfallen (Nie wypada na dole)
+        if (yPosition > maxGrenze) yPosition = maxGrenze; // Oben nicht herausfallen (Nie wypada na górze)
 
-        // Energieverlust bei Bewegung (Utrata energii podczas ruchu)
         if (energie > 0) {
-            energie--;
+            energie--;                             // Bewegung kostet 1 Energiepunkt (Ruch kosztuje 1 punkt energii)
         }
     }
 
-    // Energie hinzufügen, wenn Nahrung konsumiert wird (Dodawanie energii po skonsumowaniu jedzenia)
+    // Erhöht die Energie (Zwiększa energię)
     void energieErhoehen(int menge) {
-        energie += menge;
+        energie += menge;                          // Addiert die Nahrungsenergie (Dodaje energię z jedzenia)
     }
 
-    // Getter für X-Position (Getter dla pozycji X)
+    // Getter für Positionen (Gettery dla pozycji)
     int getX() const { return xPosition; }
-
-    // Getter für Y-Position (Getter dla pozycji Y)
     int getY() const { return yPosition; }
 
-    // Prüft, ob der Organismus noch am Leben ist (Sprawdza, czy organizm nadal żyje)
+    // Prüft, ob der Organismus lebt (Sprawdza, czy organizm żyje)
     bool lebt() const {
-        return energie > 0;
+        return energie > 0;                        // Wahr, wenn Energie über 0 liegt (Prawda, gdy energia jest powyżej 0)
+    }
+
+    // Prüft, ob genug Energie für Fortpflanzung da ist (Sprawdza, czy jest dość energii na rozmnażanie)
+    bool kannReproduzieren() const {
+        return energie >= 60;                      // Ab 60 Energiepunkten fortpflanzungsfähig (Zdolny do rozmnażania od 60 punktów energii)
+    }
+
+    // Methode zur Fortpflanzung (Metoda rozmnażania)
+    Organismus reproduzieren() {
+        energie /= 2;                              // Elternteil gibt die Hälfte seiner Energie ab (Rodzic oddaje połowę swojej energii)
+        return Organismus(dna, xPosition, yPosition, energie); // Erzeugt neuen Organismus mit der Eltern-DNA (Tworzy nowy organizm z DNA rodzica)
     }
 };
 
-// Klasse zur Verwaltung des Oekosystems und aller Organismen (Klasa do zarządzania ekosystemem i wszystkimi organizmami)
+// Klasse zur Verwaltung des Oekosystems (Klasa zarządzająca ekosystemem)
 class Welt {
 private:
-    int groesse;
-    std::vector<Organismus> organismen;
-    std::vector<Nahrung> nahrungen;
+    int groesse;                                   // Weltgröße (Rozmiar świata)
+    std::vector<Organismus> organismen;            // Liste aller Organismen (Lista wszystkich organizmów)
+    std::vector<Nahrung> nahrungen;                // Liste aller Nahrungsquellen (Lista wszystkich źródeł jedzenia)
 
 public:
-    // Konstruktor für die Welt mit einer bestimmten Groesse (Konstruktor świata o określonym rozmiarze)
     Welt(int weltGroesse) : groesse(weltGroesse) {}
 
-    // Fügt einen Organismus zur Welt hinzu (Dodaje organizm do świata)
     void organismusHinzufuegen(const Organismus& org) {
-        organismen.push_back(org);
+        organismen.push_back(org);                 // Fügt Organismus hinzu (Dodaje organizm)
     }
 
-    // Fügt Nahrung zur Welt hinzu (Dodaje jedzenie do świata)
-    void nahrungHinzufügen(const Nahrung& n) {
-        nahrungen.push_back(n);
+    void nahrungHinzufuegen(const Nahrung& n) {
+        nahrungen.push_back(n);                    // Fügt Nahrung hinzu (Dodaje jedzenie)
     }
 
-    // Führt einen Simulationsschritt für alle Organismen aus (Wykonuje krok symulacji dla wszystkich organizmów)
+    // Hauptsimulationsschritt (Główny krok symulacji)
     void simulieren() {
-        std::cout << "\n--- Simulationsschritt wird gestartet (Rozpoczyna się krok symulacji) ---" << std::endl;
+        std::cout << "\n--- Simulationsschritt gestartet (Rozpoczęto krok symulacji) ---" << std::endl;
         
-        // Lasse alle Organismen bewegen (Pozwól wszystkim organizmom się poruszyć)
+        // 1. Alle Organismen bewegen sich (Wszystkie organizmy się poruszają)
         for (auto& org : organismen) {
             org.bewegen(groesse);
         }
 
-        // Interaktion: Prüfen, ob Organismen Nahrung finden (Interakcja: czy organizmy znajdują jedzenie)
+        // 2. Nahrung einsammeln (Zbieranie jedzenia)
         for (auto orgIt = organismen.begin(); orgIt != organismen.end(); ++orgIt) {
             for (auto nahIt = nahrungen.begin(); nahIt != nahrungen.end(); ) {
                 if (orgIt->getX() == nahIt->xPosition && orgIt->getY() == nahIt->yPosition) {
-                    // Organismus frisst die Nahrung (Organizm zjada jedzenie)
-                    orgIt->energieErhoehen(nahIt->energieWert);
-                    orgIt->energieErhoehen(nahIt->energieWert);
-                    std::cout << "Ein Organismus hat Nahrung gefunden und Energie erhalten! (Organizm znalazł jedzenie i zyskał energię!)" << std::endl;
-
-                    // Entferne die konsumierte Nahrung aus dem Vektor (Usuń skonsumowane jedzenie z wektora)
-                    nahIt = nahrungen.erase(nahIt);
+                    orgIt->energieErhoehen(nahIt->energieWert); // Energie aufladen (Doładowanie energii)
+                    std::cout << "Ein Organismus hat Nahrung gefunden! (Organizm znalazł jedzenie!)" << std::endl;
+                    nahIt = nahrungen.erase(nahIt);        // Gegessene Nahrung löschen (Usuwanie zjedzonego jedzenia)
                 } else {
                     ++nahIt;
                 }
             }
         }
 
-        // Entferne tote Organismen aus dem Vector (Usuń martwe organizmy z wektora)
+        // 3. Fortpflanzung der Organismen (Rozmnażanie organizmów)
+        std::vector<Organismus> neueOrganismen;            // Temporäre Liste für Babys (Tymczasowa lista na maluchy)
+        for (auto& org : organismen) {
+            if (org.lebt() && org.kannReproduzieren()) {   // Wenn lebendig und genug Energie (Jeśli żyje i ma dość energii)
+                neueOrganismen.push_back(org.reproduzieren()); // Erstelle Nachkomme (Stwórz potomka)
+                std::cout << "Ein Organismus hat sich fortgepflanzt! (Organizm się rozmnożył!)" << std::endl;
+            }
+        }
+        // Füge die neuen Nachkommen zur Hauptliste hinzu (Dodaj nowych potomków do głównej listy)
+        for (const auto& baby : neueOrganismen) {
+            organismen.push_back(baby);
+        }
+
+        // 4. Tote Organismen entfernen (Usuwanie martwych organizmów)
         organismen.erase(
             std::remove_if(organismen.begin(), organismen.end(), [](const Organismus& o) {
-                return !o.lebt();
+                return !o.lebt();                  // Entferne alle, die nicht mehr leben (Usuń wszystkie, które już nie żyją)
             }),
             organismen.end()
         );
     }
 
-    // Zeigt den Status der gesamten Welt an (Wyświetla stan całego świata)
+    // Zeigt den aktuellen Weltstatus (Wyświetla aktualny stan świata)
     void weltStatusAnzeigen() const {
-        std::cout << "Anzahl Organismen (Liczba organizmów): " << organismen.size() 
-                  << " | Anzahl Nahrungsquellen (Liczba źródeł jedzenia): " << nahrungen.size() << std::endl;
+        std::cout << "Organismen (Organizmy): " << organismen.size() 
+                  << " | Nahrung (Jedzenie): " << nahrungen.size() << std::endl;
         for (size_t i = 0; i < organismen.size(); ++i) {
-            std::cout << "Organismus " << i << " -> ";
-            organismen[i].statusAnzeigen();
+            std::cout << "  - Organismus " << i << " -> ";
+            organismen[i].statusAnzeigen();          // Status jedes Organismus ausgeben (Wyświetl stan każdego organizmu)
         }
     }
 };
 
 int main() {
-    std::cout << "--- Oekosystem Simulator: Schritt 3 (Welt) ---" << std::endl;
+    std::cout << "--- Oekosystem Simulator: Schritt 5 (Fortpflanzung) ---" << std::endl;
 
-    // Erstelle eine Welt mit der Groesse 10x10 (Stwórz świat o wielkości 10x10)
-    Welt meineWelt(10);
-
-    // Füge einen Organismus bei Position (5, 5) mit wenig Energie hinzu (Dodaj organizm na pozycji (5, 5) z małą ilością energii)
-    meineWelt.organismusHinzufuegen(Organismus(8, 3, 5, 5));
+    Welt meineWelt(10);                              // Erstelle Welt 10x10 (Stwórz świat 10x10)
     
-    //Füge Nahrung genau dorthin hinzu, wo sich der Organismus bewegen könnte (Dodaj jedzenie dokładnie tam, dokąd może się ruszyć organizm)
-    meineWelt.nahrungHinzufügen(Nahrung(5, 4, 10)); // 10 Energiepunkte (10 punktów energii)
+    // Organismus mit viel Startenergie starten, damit er sich sofort fortpflanzen kann
+    // (Uruchom organizm z dużą energią początkową, aby od razu mógł się rozmnożyć)
+    meineWelt.organismusHinzufuegen(Organismus(8, 70, 5, 5));
 
-    std::cout << "\nInitialer Zustand der Welt (Początkowy stan świata):" << std::endl;
+    // Füge etwas Nahrung hinzu (Dodaj trochę jedzenia)
+    meineWelt.nahrungHinzufuegen(Nahrung(5, 4, 30));
+
     meineWelt.weltStatusAnzeigen();
 
     // Simuliere 3 Schritte (Symuluj 3 kroki)
