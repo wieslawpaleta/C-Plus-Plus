@@ -138,10 +138,19 @@ public:
         organismen.push_back(org);                 // Fügt Organismus hinzu (Dodaje organizm)
     }
 
-    void nahrungHinzufuegen(const Nahrung& n) {
-        nahrungen.push_back(n);                    // Fügt Nahrung hinzu (Dodaje jedzenie)
-    }
+    // Methode zum automatischen Generieren von Nahrung (Metoda do automatycznego generowania jedzenia)
+    void nahrungSpawnen(int anzahl) {
+        std::random_device rd;                     // Zufallsquelle für Positionen (Źródło losowości dla pozycji)
+        std::mt19937 gen(rd());                    // Generator starten (Uruchomienie generatora)
+        std::uniform_int_distribution<> dis(0, groesse); // Bereich von 0 bis Weltgröße (Zakres od 0 do rozmiaru świata)
 
+        for (int i = 0; i < anzahl; ++i) {
+            int zufallX = dis(gen);                // Zufällige X-Koordinate (Losowa współrzędna X)
+            int zufallY = dis(gen);                // Zufällige Y-Koordinate (Losowa współrzędna Y)
+            nahrungen.push_back(Nahrung(zufallX, zufallY, 25)); // Nahrung mit 25 Energie hinzufügen (Dodaj jedzenie z 25 energią)
+        }
+    }  
+    
     // Hauptsimulationsschritt (Główny krok symulacji)
     void simulieren() {
         std::cout << "\n--- Simulationsschritt gestartet (Rozpoczęto krok symulacji) ---" << std::endl;
