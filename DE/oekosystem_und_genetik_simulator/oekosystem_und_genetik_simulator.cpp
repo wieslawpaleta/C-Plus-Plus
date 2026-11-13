@@ -14,7 +14,7 @@ public:
     // 1. Konstruktor: Generiert eine zufällige DNA-Sequenz (Konstruktor: Generuje losową sekwencję DNA)
     DNA(size_t laenge) {
         std::random_device rd;                     // Initialisiert den Hardware-Zufallsgenerator (Inicjalizuje sprzętowy generator losowy)
-        std::mt19937 gen(rd());                    // Startet den Mersenne-Twister Zufallsgenerator (Uruchomiler generator Mersenne-Twister)
+        std::mt19937 gen(rd());                    // Startet den Mersenne-Twister Zufallsgenerator (Uruchamia generator Mersenne-Twister)
         std::uniform_int_distribution<> dis(0, 3); // Definiert einen Bereich von 0 bis 3 für die Basen (Definiuje zakres od 0 do 3 dla zasad)
 
         for (size_t i = 0; i < laenge; ++i) {      // Schleife läuft für jede Position der gewünschten Länge (Pętla wykonuje się dla każdej pozycji żądanej długości)
@@ -23,7 +23,8 @@ public:
     }
 
     // 2. Konstruktor für Nachkommen: Kopiert und mutiert Eltern-DNA (Konstruktor dla potomka: Kopiuje i mutuje DNA rodzica)
-    void mutieren(double mutationsRate) {
+    DNA(const DNA& elternDna, double mutationsRate) {
+        genSequenz = elternDna.genSequenz;         // Übernimmt die exakte Sequenz des Elternteils (Przejmuje dokładną sekwencję rodzica)
         std::random_device rd;                     // Zufallsquelle initialisieren (Inicjalizacja źródła losowości)
         std::mt19937 gen(rd());                    // Zufallsgenerator starten (Uruchomienie generatora losowego)
         std::uniform_real_distribution<> wahrscheinlichkeit(0.0, 1.0); // Wahrscheinlichkeit von 0 bis 1 (Prawdopodobieństwo od 0 do 1)
@@ -62,9 +63,13 @@ private:
     int yPosition;   // Aktuelle Y-Position im Raster (Aktualna pozycja Y na siatce)
 
 public:
-    // Konstruktor mit Initialisierungsliste (Konstruktor z listą inicjalizacyjną)
+    // Konstruktor für die Erstanstellung (Konstruktor dla pierwszej generacji)
     Organismus(size_t dnaLaenge, int startEnergie, int startX, int startY) 
         : dna(dnaLaenge), energie(startEnergie), xPosition(startX), yPosition(startY) {}
+
+    // Konstruktor für Nachkommen (Erbt DNA und bekommt Position/Energie) (Konstruktor dla potomków - dziedziczy DNA i otrzymuje pozycję/energię)
+    Organismus(const DNA& elternDna, int startX, int startY, int startEnergie)
+        : dna(elternDna, 0.15), energie(startEnergie), xPosition(startX), yPosition(startY) {} // 15% Mutationsrate (15% współczynnik mutacji)
 
     // Methode zur Anzeige des Status (Metoda wyświetlająca stan)
     void statusAnzeigen() const {
@@ -106,8 +111,19 @@ public:
     bool lebt() const {
         return energie > 0;                        // Wahr, wenn Energie über 0 liegt (Prawda, gdy energia jest powyżej 0)
     }
-    };
 
+    // Prüft, ob genug Energie für Fortpflanzung da ist (Sprawdza, czy jest dość energii na rozmnażanie)
+    bool kannReproduzieren() const {
+        return energie >= 60;                      // Ab 60 Energiepunkten fortpflanzungsfähig (Zdolny do rozmnażania od 60 punktów energii)
+    }
+
+    // Methode zur Fortpflanzung (Metoda rozmnażania)
+    Organismus reproduzieren() {
+        energie /= 2;                              // Elternteil gibt die Hälfte seiner Energie ab (Rodzic oddaje połowę swojej energii)
+        return Organismus(dna, xPosition, yPosition, energie); // Erzeugt neuen Organismus mit der Eltern-DNA (Tworzy nowy organizm z DNA rodzica)
+    }
+};
+// -- tu skończyłem
 // Klasse zur Verwaltung des Oekosystems (Klasa zarządzająca ekosystemem)
 class Welt {
 private:
