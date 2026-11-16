@@ -123,7 +123,7 @@ public:
         return Organismus(dna, xPosition, yPosition, energie); // Erzeugt neuen Organismus mit der Eltern-DNA (Tworzy nowy organizm z DNA rodzica)
     }
 };
-// -- tu skończyłem
+
 // Klasse zur Verwaltung des Oekosystems (Klasa zarządzająca ekosystemem)
 class Welt {
 private:
@@ -132,28 +132,38 @@ private:
     std::vector<Nahrung> nahrungen;                // Liste aller Nahrungsquellen (Lista wszystkich źródeł jedzenia)
 
 public:
-// Konstruktor für die Welt mit einer bestimmten Groesse (Konstruktor świata o określonym rozmiarze)
     Welt(int weltGroesse) : groesse(weltGroesse) {}
 
     void organismusHinzufuegen(const Organismus& org) {
         organismen.push_back(org);                 // Fügt Organismus hinzu (Dodaje organizm)
     }
 
-    // Fügt Nahrung zur Welt hinzu (Dodaje jedzenie do świata)
-    void nahrungHinzufuegen(const Nahrung& n) {
-        nahrungen.push_back(n);
+    // Methode zum automatischen Generieren von Nahrung (Metoda do automatycznego generowania jedzenia)
+    void nahrungSpawnen(int anzahl) {
+        std::random_device rd;                     // Zufallsquelle für Positionen (Źródło losowości dla pozycji)
+        std::mt19937 gen(rd());                    // Generator starten (Uruchomienie generatora)
+        std::uniform_int_distribution<> dis(0, groesse); // Bereich von 0 bis Weltgröße (Zakres od 0 do rozmiaru świata)
+
+        for (int i = 0; i < anzahl; ++i) {
+            int zufallX = dis(gen);                // Zufällige X-Koordinate (Losowa współrzędna X)
+            int zufallY = dis(gen);                // Zufällige Y-Koordinate (Losowa współrzędna Y)
+            nahrungen.push_back(Nahrung(zufallX, zufallY, 25)); // Nahrung mit 25 Energie hinzufügen (Dodaj jedzenie z 25 energią)
+        }
     }
-    
+
     // Hauptsimulationsschritt (Główny krok symulacji)
     void simulieren() {
         std::cout << "\n--- Simulationsschritt gestartet (Rozpoczęto krok symulacji) ---" << std::endl;
         
-        // Alle Organismen bewegen sich (Wszystkie organizmy się poruszają)
+        // 0. Automatischia neue Nahrung in jedem Schritt spawnen (Automatyczne generowanie nowego jedzenia w każdym kroku)
+        nahrungSpawnen(2);                             // Fügt in jedem Schritt 2 neue Nahrungsstücke hinzu (Dodaje 2 nowe kawałki jedzenia w każdym kroku)
+
+        // 1. Alle Organismen bewegen sich (Wszystkie organizmy się poruszają)
         for (auto& org : organismen) {
             org.bewegen(groesse);
         }
 
-        // Nahrung einsammeln (Zbieranie jedzenia)
+        // 2. Nahrung einsammeln (Zbieranie jedzenia)
         for (auto orgIt = organismen.begin(); orgIt != organismen.end(); ++orgIt) {
             for (auto nahIt = nahrungen.begin(); nahIt != nahrungen.end(); ) {
                 if (orgIt->getX() == nahIt->xPosition && orgIt->getY() == nahIt->yPosition) {
@@ -166,6 +176,19 @@ public:
             }
         }
 
+        // 3. Fortpflanzung der Organismen (Rozmnażanie organizmów)
+        std::vector<Organismus> neueOrganismen;            // Temporäre Liste für Babys (Tymczasowa lista na maluchy)
+        for (auto& org : organismen) {
+            if (org.lebt() && org.kannReproduzieren()) {   // Wenn lebendig und genug Energie (Jeśli żyje i ma dość energii)
+                neueOrganismen.push_back(org.reproduzieren()); // Erstelle Nachkomme (Stwórz potomka)
+                std::cout << "Ein Organismus hat sich fortgepflanzt! (Organizm się rozmnożył!)" << std::endl;
+            }
+        }
+        // Füge die neuen Nachkommen zur Hauptliste hinzu (Dodaj nowych potomków do głównej listy)
+        for (const auto& baby : neueOrganismen) {
+            organismen.push_back(baby);
+        }
+-- tu skończyłem
         // Tote Organismen entfernen (Usuwanie martwych organizmów)
         organismen.erase(
             std::remove_if(organismen.begin(), organismen.end(), [](const Organismus& o) {
