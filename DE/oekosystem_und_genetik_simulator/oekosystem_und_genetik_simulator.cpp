@@ -1,8 +1,8 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include <random>
-#include <algorithm>
+#include <iostream>     // Einbinden der Standard-I/O-Bibliothek (Dołączenie standardowej biblioteki I/O)
+#include <string>       // Einbinden der String-Bibliothek (Dołączenie biblioteki stringów)
+#include <vector>       // Einbinden der Vector-Bibliothek für dynamische Arrays (Dołączenie biblioteki wektorów)
+#include <random>       // Einbinden der Zufallszahlen-Bibliothek (Dołączenie biblioteki liczb losowych)
+#include <algorithm>    // Einbinden von Algorithmen wie remove_if (Dołączenie algorytmów takich jak remove_if)
 
 // Klasse zur Darstellung der DNA eines Organismus (Klasa reprezentująca DNA organizmu)
 class DNA {
@@ -11,7 +11,7 @@ private:
     std::string basen = "ATCG";     // Verfügbare Basen für die DNA (Dostępne zasady dla DNA)
 
 public:
-    // 1. Konstruktor: Generiert eine zufällige DNA-Sequenz (Konstruktor: Generuje losową sekwencję DNA)
+    // Konstruktor 1: Generiert eine zufällige DNA-Sequenz (Konstruktor 1: Generuje losową sekwencję DNA)
     DNA(size_t laenge) {
         std::random_device rd;                     // Initialisiert den Hardware-Zufallsgenerator (Inicjalizuje sprzętowy generator losowy)
         std::mt19937 gen(rd());                    // Startet den Mersenne-Twister Zufallsgenerator (Uruchamia generator Mersenne-Twister)
@@ -22,7 +22,7 @@ public:
         }
     }
 
-    // 2. Konstruktor für Nachkommen: Kopiert und mutiert Eltern-DNA (Konstruktor dla potomka: Kopiuje i mutuje DNA rodzica)
+    // Konstruktor 2 für Nachkommen: Kopiert und mutiert Eltern-DNA (Konstruktor 2 dla potomka: Kopiuje i mutuje DNA rodzica)
     DNA(const DNA& elternDna, double mutationsRate) {
         genSequenz = elternDna.genSequenz;         // Übernimmt die exakte Sequenz des Elternteils (Przejmuje dokładną sekwencję rodzica)
         std::random_device rd;                     // Zufallsquelle initialisieren (Inicjalizacja źródła losowości)
@@ -39,7 +39,7 @@ public:
 
     // Getter für die Gen-Sequenz (Getter zwracający sekwencję genów)
     std::string getSequenz() const {
-        return genSequenz; // Gibt den Sequenz-String zurück (Zwraca łańcuch sekwencji)
+        return genSequenz;                         // Gibt den Sequenz-String zurück (Zwraca łańcuch sekwencji)
     }
 };
 
@@ -51,7 +51,8 @@ public:
     int energieWert; // Menge an Energie, die die Nahrung bringt (Ilość energii, jaką daje jedzenie)
 
     // Konstruktor der Nahrungs-Klasse (Konstruktor klasy jedzenia)
-    Nahrung(int x, int y, int energie) : xPosition(x), yPosition(y), energieWert(energie) {}
+    Nahrung(int x, int y, int energie) 
+        : xPosition(x), yPosition(y), energieWert(energie) {} // Initialisierungsliste für Nahrung (Lista inicjalizacyjna dla jedzenia)
 };
 
 // Klasse zur Darstellung eines Organismus im Oekosystem (Klasa reprezentująca organizm w ekosystemie)
@@ -65,17 +66,17 @@ private:
 public:
     // Konstruktor für die Erstanstellung (Konstruktor dla pierwszej generacji)
     Organismus(size_t dnaLaenge, int startEnergie, int startX, int startY) 
-        : dna(dnaLaenge), energie(startEnergie), xPosition(startX), yPosition(startY) {}
+        : dna(dnaLaenge), energie(startEnergie), xPosition(startX), yPosition(startY) {} // Initialisierungsliste (Lista inicjalizacyjna)
 
-    // Konstruktor für Nachkommen (Erbt DNA und bekommt Position/Energie) (Konstruktor dla potomków - dziedziczy DNA i otrzymuje pozycję/energię)
+    // Konstruktor für Nachkommen (Konstruktor dla potomków)
     Organismus(const DNA& elternDna, int startX, int startY, int startEnergie)
-        : dna(elternDna, 0.15), energie(startEnergie), xPosition(startX), yPosition(startY) {} // 15% Mutationsrate (15% współczynnik mutacji)
+        : dna(elternDna, 0.15), energie(startEnergie), xPosition(startX), yPosition(startY) {} // Initialisierungsliste mit Mutationsrate (Lista inicjalizacyjna ze współczynnikiem mutacji)
 
     // Methode zur Anzeige des Status (Metoda wyświetlająca stan)
     void statusAnzeigen() const {
         std::cout << "Pos: (" << xPosition << ", " << yPosition 
                   << ") | Energie: " << energie 
-                  << " | DNA: " << dna.getSequenz() << std::endl;
+                  << " | DNA: " << dna.getSequenz() << std::endl; // Gibt Infos aus (Wyświetla informacje)
     }
 
     // Methode zum Bewegen des Organismus (Metoda poruszająca organizmem)
@@ -87,10 +88,9 @@ public:
         xPosition += schritt(gen);                 // Verändert X-Position zufällig (Zmienia pozycję X losowo)
         yPosition += schritt(gen);                 // Verändert Y-Position zufällig (Zmienia pozycję Y losowo)
 
-        // Begrenzung innerhalb der Welt (Ograniczenie w granicach świata)
         if (xPosition < 0) xPosition = 0;          // Links nicht herausfallen (Nie wypada z lewej)
         if (xPosition > maxGrenze) xPosition = maxGrenze; // Rechts nicht herausfallen (Nie wypada z prawej)
-        if (yPosition < 0) yPosition = 0;          // Unten nie herausfallen (Nie wypada na dole)
+        if (yPosition < 0) yPosition = 0;          // Unten nicht herausfallen (Nie wypada na dole)
         if (yPosition > maxGrenze) yPosition = maxGrenze; // Oben nicht herausfallen (Nie wypada na górze)
 
         if (energie > 0) {
@@ -103,9 +103,11 @@ public:
         energie += menge;                          // Addiert die Nahrungsenergie (Dodaje energię z jedzenia)
     }
 
-    // Getter für Positionen (Gettery dla pozycji)
-    int getX() const { return xPosition; }
-    int getY() const { return yPosition; }
+    // Getter für X-Position (Getter dla pozycji X)
+    int getX() const { return xPosition; }         // Gibt X zurück (Zwraca X)
+    
+    // Getter für Y-Position (Getter dla pozycji Y)
+    int getY() const { return yPosition; }         // Gibt Y zurück (Zwraca Y)
 
     // Prüft, ob der Organismus lebt (Sprawdza, czy organizm żyje)
     bool lebt() const {
@@ -120,7 +122,7 @@ public:
     // Methode zur Fortpflanzung (Metoda rozmnażania)
     Organismus reproduzieren() {
         energie /= 2;                              // Elternteil gibt die Hälfte seiner Energie ab (Rodzic oddaje połowę swojej energii)
-        return Organismus(dna, xPosition, yPosition, energie); // Erzeugt neuen Organismus mit der Eltern-DNA (Tworzy nowy organizm z DNA rodzica)
+        return Organismus(dna, xPosition, yPosition, energie); // Erzeugt Nachkomme (Tworzy potomka)
     }
 };
 
@@ -132,10 +134,12 @@ private:
     std::vector<Nahrung> nahrungen;                // Liste aller Nahrungsquellen (Lista wszystkich źródeł jedzenia)
 
 public:
-    Welt(int weltGroesse) : groesse(weltGroesse) {}
+    // Konstruktor der Welt (Konstruktor świata)
+    Welt(int weltGroesse) : groesse(weltGroesse) {} // Initialisiert Weltgröße (Inicjalizuje rozmiar świata)
 
+    // Fügt Organismus hinzu (Dodaje organizm)
     void organismusHinzufuegen(const Organismus& org) {
-        organismen.push_back(org);                 // Fügt Organismus hinzu (Dodaje organizm)
+        organismen.push_back(org);                 // Hinzufügen zum Vektor (Dodanie do wektora)
     }
 
     // Methode zum automatischen Generieren von Nahrung (Metoda do automatycznego generowania jedzenia)
@@ -144,11 +148,40 @@ public:
         std::mt19937 gen(rd());                    // Generator starten (Uruchomienie generatora)
         std::uniform_int_distribution<> dis(0, groesse); // Bereich von 0 bis Weltgröße (Zakres od 0 do rozmiaru świata)
 
-        for (int i = 0; i < anzahl; ++i) {
+        for (int i = 0; i < anzahl; ++i) {         // Schleife für Anzahl der Nahrung (Pętla dla liczby jedzenia)
             int zufallX = dis(gen);                // Zufällige X-Koordinate (Losowa współrzędna X)
             int zufallY = dis(gen);                // Zufällige Y-Koordinate (Losowa współrzędna Y)
-            nahrungen.push_back(Nahrung(zufallX, zufallY, 25)); // Nahrung mit 25 Energie hinzufügen (Dodaj jedzenie z 25 energią)
+            nahrungen.push_back(Nahrung(zufallX, zufallY, 25)); // Nahrung hinzufügen (Dodanie jedzenia)
         }
+    }
+
+    // Methode zur textbasierten Visualisierung der Welt (Metoda tekstowej wizualizacji świata)
+    void visualisieren() const {
+        std::cout << "\n--- WELTKARTE (MAPA ŚWIATA) ---" << std::endl; // Titel ausgeben (Wypisanie tytułu)
+        
+        for (int y = 0; y <= groesse; ++y) {       // Schleife für Y-Achse / Zeilen (Pętla dla osi Y / wierszy)
+            for (int x = 0; x <= groesse; ++x) {   // Schleife für X-Achse / Spalten (Pętla dla osi X / kolumn)
+                char symbol = '.';                 // Standardmäßig leeres Feld (Domyślně puste pole)
+
+                for (const auto& n : nahrungen) {  // Gehe durch alle Nahrungsquellen (Przejdź przez wszystkie źródła jedzenia)
+                    if (n.xPosition == x && n.yPosition == y) {
+                        symbol = 'N';              // Nahrungs-Symbol (Symbol jedzenia)
+                        break;                     // Schleife abbrechen (Przerwanie pętli)
+                    }
+                }
+
+                for (const auto& o : organismen) { // Gehe durch alle Organismen (Przejdź przez wszystkie organizmy)
+                    if (o.getX() == x && o.getY() == y) {
+                        symbol = 'O';              // Organismus-Symbol (Symbol organizmu)
+                        break;                     // Schleife abbrechen (Przerwanie pętli)
+                    }
+                }
+
+                std::cout << symbol << " ";        // Zeichen ausgeben gefolgt von Leerzeichen (Wypisanie znaku ze spacją)
+            }
+            std::cout << std::endl;                // Neue Zeile nach jeder Reihe (Nowa linia po każdym wierszu)
+        }
+        std::cout << "-------------------------------" << std::endl; // Trennlinie (Linia oddzielająca)
     }
 
     // Hauptsimulationsschritt (Główny krok symulacji)
@@ -188,7 +221,7 @@ public:
         for (const auto& baby : neueOrganismen) {
             organismen.push_back(baby);
         }
--- tu skończyłem
+
         // Tote Organismen entfernen (Usuwanie martwych organizmów)
         organismen.erase(
             std::remove_if(organismen.begin(), organismen.end(), [](const Organismus& o) {
@@ -200,28 +233,22 @@ public:
 
     // Zeigt den aktuellen Weltstatus (Wyświetla aktualny stan świata)
     void weltStatusAnzeigen() const {
-        std::cout << "Anzahl Organismen (Liczba organizmów): " << organismen.size() 
-                  << " | Anzahl Nahrungsquellen (Liczba źródeł jedzenia): " << nahrungen.size() << std::endl;
-        for (size_t i = 0; i < organismen.size(); ++i) {
-            std::cout << "  - Organismus " << i << " -> ";
-            organismen[i].statusAnzeigen();          // Status jedes Organismus ausgeben (Wyświetl stan każdego organizmu)
-        }
+        std::cout << "Organismen (Organizmy): " << organismen.size() 
+                  << " | Nahrung (Jedzenie): " << nahrungen.size() << std::endl;
     }
 };
 
+// Hauptfunktion des Programms (Główna funkcja programu)
 int main() {
-    std::cout << "--- Oekosystem Simulator: Schritt 4 (Nahrung) ---" << std::endl;
+    std::cout << "--- Oekosystem Simulator: Schritt 7 (Visualisierung) ---" << std::endl;
 
     // Erstelle eine Welt mit der Groesse 10x10 (Stwórz świat o wielkości 10x10)
-    Welt meineWelt(10);
+    Welt meineWelt(9);
 
-    // Füge einen Organismus bei Position (5, 5) mit wenig Energie hinzu (Dodaj organizm na pozycji (5, 5) z małą ilością energii)
-    meineWelt.organismusHinzufuegen(Organismus(8, 3, 5, 5));
+    // Starte mit zwei Organismen (Rozpocznij z dwoma organizmami)
+    meineWelt.organismusHinzufuegen(Organismus(8, 40, 3, 3));
+    meineWelt.organismusHinzufuegen(Organismus(8, 40, 6, 6));
 
-    // Füge Nahrung genau dorthin hinzu, wo sich der Organismus bewegen könnte (Dodaj jedzenie dokładnie tam, dokąd może się ruszyć organizm)
-    meineWelt.nahrungHinzufuegen(Nahrung(5, 4, 10)); // 10 Energiepunkte (10 punktów energii)
-
-    std::cout << "\nInitialer Zustand der Welt (Początkowy stan świata):" << std::endl;
     meineWelt.weltStatusAnzeigen();
 
     // Simuliere 3 Schritte (Symuluj 3 kroki)
