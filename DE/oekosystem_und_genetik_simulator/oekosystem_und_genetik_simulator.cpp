@@ -3,6 +3,7 @@
 #include <vector>       // Einbinden der Vector-Bibliothek für dynamische Arrays (Dołączenie biblioteki wektorów)
 #include <random>       // Einbinden der Zufallszahlen-Bibliothek (Dołączenie biblioteki liczb losowych)
 #include <algorithm>    // Einbinden von Algorithmen wie remove_if (Dołączenie algorytmów takich jak remove_if)
+#include <numeric>      // Einbinden von numerischen Algorithmen wie accumulate (Dołączenie algorytmów numerycznych jak accumulate)
 
 // Klasse zur Darstellung der DNA eines Organismus (Klasa reprezentująca DNA organizmu)
 class DNA {
@@ -133,6 +134,11 @@ private:
     std::vector<Organismus> organismen;            // Liste aller Organismen (Lista wszystkich organizmów)
     std::vector<Nahrung> nahrungen;                // Liste aller Nahrungsquellen (Lista wszystkich źródeł jedzenia)
 
+    // Statistik-Zähler (Liczniki statystyk)
+    int gesamtGeburten = 0; // Zählt Gesamtzahl der Geburten (Liczy łączną liczbę narodzin)
+    int gesamtTode = 0; // Zählt Gesamtzahl der Tode (Liczy łączną liczbę zgonów)
+    int gesamtGegessen = 0; // Zählt verzehrte Nahrungseinheiten (Liczy spożyte jednostki jedzenia)
+==
 public:
     // Konstruktor der Welt (Konstruktor świata)
     Welt(int weltGroesse) : groesse(weltGroesse) {} // Initialisiert Weltgröße (Inicjalizuje rozmiar świata)
@@ -242,20 +248,17 @@ public:
 int main() {
     std::cout << "--- Oekosystem Simulator: Schritt 7 (Visualisierung) ---" << std::endl;
 
-    // Erstelle eine Welt mit der Groesse 10x10 (Stwórz świat o wielkości 10x10)
-    Welt meineWelt(9);
+    Welt meineWelt(9);                             // Erstelle Welt 10x10 (0 bis 9) (Stwórz świat 10x10 od 0 do 9)
+    
+    meineWelt.organismusHinzufuegen(Organismus(8, 40, 3, 3)); // Organismus hinzufügen (Dodaj organizm)
+    meineWelt.organismusHinzufuegen(Organismus(8, 40, 6, 6)); // Zweiter Organismus (Drugi organizm)
 
-    // Starte mit zwei Organismen (Rozpocznij z dwoma organizmami)
-    meineWelt.organismusHinzufuegen(Organismus(8, 40, 3, 3));
-    meineWelt.organismusHinzufuegen(Organismus(8, 40, 6, 6));
+    meineWelt.visualisieren();                     // Weltkarte initial anzeigen (Wyświetl mapę świata początkową)
 
-    meineWelt.weltStatusAnzeigen();
-
-    // Simuliere 3 Schritte (Symuluj 3 kroki)
-    for (int i = 0; i < 3; ++i) {
-        meineWelt.simulieren();
-        meineWelt.weltStatusAnzeigen();
+    for (int i = 0; i < 3; ++i) {                  // Schleife für 3 Simulationsschritte (Pętla dla 3 kroków symulacji)
+        meineWelt.simulieren();                    // Schritt ausführen (Wykonaj krok)
+        meineWelt.visualisieren();                 // Karte nach dem Schritt anzeigen (Wyświetl mapę po kroku)
     }
 
-    return 0;
+    return 0;                                      // Programm erfolgreich beendet (Program zakończony pomyślnie)
 }
