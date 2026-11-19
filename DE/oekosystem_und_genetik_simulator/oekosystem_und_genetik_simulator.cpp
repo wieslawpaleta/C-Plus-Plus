@@ -110,6 +110,9 @@ public:
     // Getter für Y-Position (Getter dla pozycji Y)
     int getY() const { return yPosition; }         // Gibt Y zurück (Zwraca Y)
 
+    // Getter für Energie (Getter dla energii)
+    int getEnergie() const { return energie; }     // Gibt Energie zurück (Zwraca energię)
+
     // Prüft, ob der Organismus lebt (Sprawdza, czy organizm żyje)
     bool lebt() const {
         return energie > 0;                        // Wahr, wenn Energie über 0 liegt (Prawda, gdy energia jest powyżej 0)
@@ -127,7 +130,7 @@ public:
     }
 };
 
-// Klasse zur Verwaltung des Oekosystems (Klasa zarządzająca ekosystemem)
+// Klasse zur Verwaltung des Oekosystems und Statistiken (Klasa zarządzająca ekosystemem i statystykami)
 class Welt {
 private:
     int groesse;                                   // Weltgröße (Rozmiar świata)
@@ -135,10 +138,10 @@ private:
     std::vector<Nahrung> nahrungen;                // Liste aller Nahrungsquellen (Lista wszystkich źródeł jedzenia)
 
     // Statistik-Zähler (Liczniki statystyk)
-    int gesamtGeburten = 0; // Zählt Gesamtzahl der Geburten (Liczy łączną liczbę narodzin)
-    int gesamtTode = 0; // Zählt Gesamtzahl der Tode (Liczy łączną liczbę zgonów)
-    int gesamtGegessen = 0; // Zählt verzehrte Nahrungseinheiten (Liczy spożyte jednostki jedzenia)
-==
+    int gesamtGeburten = 0;                        // Zählt Gesamtzahl der Geburten (Liczy łączną liczbę narodzin)
+    int gesamtTode = 0;                            // Zählt Gesamtzahl der Tode (Liczy łączną liczbę zgonów)
+    int gesamtGegessen = 0;                        // Zählt verzehrte Nahrungseinheiten (Liczy spożyte jednostki jedzenia)
+
 public:
     // Konstruktor der Welt (Konstruktor świata)
     Welt(int weltGroesse) : groesse(weltGroesse) {} // Initialisiert Weltgröße (Inicjalizuje rozmiar świata)
@@ -190,63 +193,83 @@ public:
         std::cout << "-------------------------------" << std::endl; // Trennlinie (Linia oddzielająca)
     }
 
+    // Methode zur Anzeige von Statistiken (Metoda wyświetlania statystyk)
+    void statistikenAnzeigen() const {
+        std::cout << "=== OEKOSYSTEM STATISTIKEN (STATYSTYKI EKOSYSTEMU) ===" << std::endl; // Titel (Tytuł)
+        std::cout << "Lebende Organismen (Żyjące organizmy): " << organismen.size() << std::endl; // Anzahl (Liczba)
+        std::cout << "Verfügbare Nahrung (Dostępne jedzenie): " << nahrungen.size() << std::endl; // Nahrung (Jedzenie)
+        std::cout << "Gesamte Geburten (Łączne narodziny):   " << gesamtGeburten << std::endl; // Geburten (Narodziny)
+        std::cout << "Gesamte Tode (Łączne zgoni):         " << gesamtTode << std::endl;     // Tode (Zgony)
+        std::cout << "Verzehrte Nahrung (Zjedzone jedzenie): " << gesamtGegessen << std::endl; // Gegessen (Zjedzone)
+
+        // Durchschnittliche Energie berechnen, falls Organismen existieren (Obliczanie średniej energii, jeśli istnieją organizmy)
+        if (!organismen.empty()) {                 // Prüfen, ob Vektor nicht leer ist (Sprawdzenie, czy wektor nie jest pusty)
+            int gesamtEnergie = 0;                 // Variable für Summe (Zmienna na sumę)
+            for (const auto& o : organismen) {     // Durchlaufe alle Organismen (Przejdź przez wszystkie organizmy)
+                gesamtEnergie += o.getEnergie();   // Addiere Energiewerte (Dodaj wartości energii)
+            }
+            double durchschnittsEnergie = static_cast<double>(gesamtEnergie) / organismen.size(); // Durchschnitt berechnen (Oblicz średnią)
+            std::cout << "Durchschnittsenergie (Średnia energia): " << durchschnittsEnergie << std::endl; // Ausgabe (Wyjście)
+        } else {
+            std::cout << "Durchschnittsenergie (Średnia energia): 0" << std::endl; // Fallback wenn alle tot (Awaria, gdy wszyscy nie żyją)
+        }
+        std::cout << "==================================================" << std::endl; // Trennlinie (Linia oddzielająca)
+    }
+
     // Hauptsimulationsschritt (Główny krok symulacji)
     void simulieren() {
         std::cout << "\n--- Simulationsschritt gestartet (Rozpoczęto krok symulacji) ---" << std::endl;
         
-        // 0. Automatischia neue Nahrung in jedem Schritt spawnen (Automatyczne generowanie nowego jedzenia w każdym kroku)
-        nahrungSpawnen(2);                             // Fügt in jedem Schritt 2 neue Nahrungsstücke hinzu (Dodaje 2 nowe kawałki jedzenia w każdym kroku)
+        nahrungSpawnen(2);                         // 2 neue Nahrungsstücke spawnen (Generowanie 2 nowych kawałków jedzenia)
 
-        // 1. Alle Organismen bewegen sich (Wszystkie organizmy się poruszają)
         for (auto& org : organismen) {
-            org.bewegen(groesse);
+            org.bewegen(groesse);                  // Organismus bewegen (Poruszenie organizmu)
         }
 
-        // 2. Nahrung einsammeln (Zbieranie jedzenia)
         for (auto orgIt = organismen.begin(); orgIt != organismen.end(); ++orgIt) {
             for (auto nahIt = nahrungen.begin(); nahIt != nahrungen.end(); ) {
                 if (orgIt->getX() == nahIt->xPosition && orgIt->getY() == nahIt->yPosition) {
-                    orgIt->energieErhoehen(nahIt->energieWert); // Energie aufladen (Doładowanie energii)
+                    orgIt->energieErhoehen(nahIt->energieWert); // Energie aufstocken (Doładowanie energii)
                     std::cout << "Ein Organismus hat Nahrung gefunden! (Organizm znalazł jedzenie!)" << std::endl;
-                    nahIt = nahrungen.erase(nahIt);        // Gegessene Nahrung löschen (Usuwanie zjedzonego jedzenia)
+                    gesamtGegessen++;              // Zähler für verzehrte Nahrung erhöhen (Zwiększenie licznika zjedzonego jedzenia)
+                    nahIt = nahrungen.erase(nahIt);    // Gegessenes Essen löschen (Usunięcie zjedzonego jedzenia)
                 } else {
-                    ++nahIt;
+                    ++nahIt;                       // Weitergehen (Przejście dalej)
                 }
             }
         }
 
-        // 3. Fortpflanzung der Organismen (Rozmnażanie organizmów)
-        std::vector<Organismus> neueOrganismen;            // Temporäre Liste für Babys (Tymczasowa lista na maluchy)
+        std::vector<Organismus> neueOrganismen;    // Liste für Babys (Lista na potomstwo)
         for (auto& org : organismen) {
-            if (org.lebt() && org.kannReproduzieren()) {   // Wenn lebendig und genug Energie (Jeśli żyje i ma dość energii)
-                neueOrganismen.push_back(org.reproduzieren()); // Erstelle Nachkomme (Stwórz potomka)
+            if (org.lebt() && org.kannReproduzieren()) {
+                neueOrganismen.push_back(org.reproduzieren()); // Nachkomme erzeugen (Utworzenie potomka)
+                gesamtGeburten++;                  // Zähler für Geburten erhöhen (Zwiększenie licznika narodzin)
                 std::cout << "Ein Organismus hat sich fortgepflanzt! (Organizm się rozmnożył!)" << std::endl;
             }
         }
-        // Füge die neuen Nachkommen zur Hauptliste hinzu (Dodaj nowych potomków do głównej listy)
         for (const auto& baby : neueOrganismen) {
-            organismen.push_back(baby);
+            organismen.push_back(baby);            // Babys zur Hauptliste hinzufügen (Dodanie maluchów do głównej listy)
         }
 
-        // Tote Organismen entfernen (Usuwanie martwych organizmów)
+        // Vor dem Löschen die Anzahl der toten Organismen zählen (Przed usunięciem policz liczbę martwych organizmów)
+        size_t anzahlVorher = organismen.size();   // Größe vor dem Filtern (Rozmiar przed filtrowaniem)
+        
         organismen.erase(
             std::remove_if(organismen.begin(), organismen.end(), [](const Organismus& o) {
-                return !o.lebt();                  // Entferne alle, die nicht mehr leben (Usuń wszystkie, które już nie żyją)
+                return !o.lebt();                  // Tote Organismen entfernen (Usunięcie martwych organizmów)
             }),
             organismen.end()
         );
-    }
 
-    // Zeigt den aktuellen Weltstatus (Wyświetla aktualny stan świata)
-    void weltStatusAnzeigen() const {
-        std::cout << "Organismen (Organizmy): " << organismen.size() 
-                  << " | Nahrung (Jedzenie): " << nahrungen.size() << std::endl;
+        size_t anzahlNachher = organismen.size();  // Größe nach dem Filtern (Rozmiar po filtrowaniu)
+        size_t gestorbenInDiesemSchritt = anzahlVorher - anzahlNachher; // Differenz ist die Zahl der Tode (Różnica to liczba zgonów)
+        gesamtTode += gestorbenInDiesemSchritt;    // Zum Gesamtzähler addieren (Dodanie do całkowitego licznika)
     }
 };
 
 // Hauptfunktion des Programms (Główna funkcja programu)
 int main() {
-    std::cout << "--- Oekosystem Simulator: Schritt 7 (Visualisierung) ---" << std::endl;
+    std::cout << "--- Oekosystem Simulator: Schritt 8 (Statistiken) ---" << std::endl;
 
     Welt meineWelt(9);                             // Erstelle Welt 10x10 (0 bis 9) (Stwórz świat 10x10 od 0 do 9)
     
@@ -258,6 +281,7 @@ int main() {
     for (int i = 0; i < 3; ++i) {                  // Schleife für 3 Simulationsschritte (Pętla dla 3 kroków symulacji)
         meineWelt.simulieren();                    // Schritt ausführen (Wykonaj krok)
         meineWelt.visualisieren();                 // Karte nach dem Schritt anzeigen (Wyświetl mapę po kroku)
+        meineWelt.statistikenAnzeigen();           // Statistiken nach jedem Schritt anzeigen (Wyświetl statystyki po każdym kroku)
     }
 
     return 0;                                      // Programm erfolgreich beendet (Program zakończony pomyślnie)
