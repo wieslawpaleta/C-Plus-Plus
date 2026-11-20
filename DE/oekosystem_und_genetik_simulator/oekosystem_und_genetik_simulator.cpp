@@ -3,7 +3,7 @@
 #include <vector>       // Einbinden der Vector-Bibliothek für dynamische Arrays (Dołączenie biblioteki wektorów)
 #include <random>       // Einbinden der Zufallszahlen-Bibliothek (Dołączenie biblioteki liczb losowych)
 #include <algorithm>    // Einbinden von Algorithmen wie remove_if (Dołączenie algorytmów takich jak remove_if)
-#include <numeric>      // Einbinden von numerischen Algorithmen wie accumulate (Dołączenie algorytmów numerycznych jak accumulate)
+#include <cmath>        // Einbinden von mathematischen Funktionen wie std::abs (Dołączenie funkcji matematycznych jak std::abs)
 
 // Klasse zur Darstellung der DNA eines Organismus (Klasa reprezentująca DNA organizmu)
 class DNA {
@@ -79,15 +79,31 @@ public:
                   << ") | Energie: " << energie 
                   << " | DNA: " << dna.getSequenz() << std::endl; // Gibt Infos aus (Wyświetla informacje)
     }
-
-    // Methode zum Bewegen des Organismus (Metoda poruszająca organizmem)
-    void bewegen(int maxGrenze) {
+--- tu skończyłem
+    // Hilfsmethode für zufällige Bewegung (Metoda pomocnicza do losowego ruchu)
+    void zufaelligBewegen(int maxGrenze) {
         std::random_device rd;                     // Zufallsquelle (Źródło losowości)
         std::mt19937 gen(rd());                    // Generator (Generator)
         std::uniform_int_distribution<> schritt(-1, 1); // Schrittweite -1, 0 oder 1 (Krok -1, 0 lub 1)
 
         xPosition += schritt(gen);                 // Verändert X-Position zufällig (Zmienia pozycję X losowo)
         yPosition += schritt(gen);                 // Verändert Y-Position zufällig (Zmienia pozycję Y losowo)
+        begrenzenUndEnergieVerbrauchen(maxGrenze); // Grenzen prüfen und Energie abziehen (Sprawdź granice i odejmij energię)
+    }
+
+    // Intelligente Bewegung in Richtung der nächsten Nahrung (Inteligentny ruch w stronę najbliższego jedzenia)
+    void bewegenZurNahrung(const std::vector<Nahrung>& nahrungen, int maxGrenze) {
+        if (nahrungen.empty()) {                   // Falls keine Nahrung vorhanden ist (Jeśli nie ma żadnego jedzenia)
+            zufaelligBewegen(maxGrenze);           // Bewege dich zufällig (Poruszaj się losowo)
+            return;                                // Methode beenden (Zakończ metodę)
+        }
+
+        const Nahrung* naechsteNahrung = nullptr; // Zeiger auf das naechste Nahrungsstuck (Wskaźnik na najbliższy kawałek jedzenia)
+        int kleinsteDistanz = 1000000; // Startwert fuer minimale Distanz (Wartość początkowa dla minimalnego dystansu)
+
+        for (const auto& n : nahrungen) { // Gehe durch alle verfuegbaren Nahrungsquellen (Przejdź przez wszystkie dostępne źródła jedzenia)
+            int distanz = std::abs
+            }
 
         if (xPosition < 0) xPosition = 0;          // Links nicht herausfallen (Nie wypada z lewej)
         if (xPosition > maxGrenze) xPosition = maxGrenze; // Rechts nicht herausfallen (Nie wypada z prawej)
