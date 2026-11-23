@@ -79,7 +79,7 @@ public:
                   << ") | Energie: " << energie 
                   << " | DNA: " << dna.getSequenz() << std::endl; // Gibt Infos aus (Wyświetla informacje)
     }
---- tu skończyłem
+
     // Hilfsmethode für zufällige Bewegung (Metoda pomocnicza do losowego ruchu)
     void zufaelligBewegen(int maxGrenze) {
         std::random_device rd;                     // Zufallsquelle (Źródło losowości)
@@ -92,25 +92,48 @@ public:
     }
 
     // Intelligente Bewegung in Richtung der nächsten Nahrung (Inteligentny ruch w stronę najbliższego jedzenia)
-    void bewegenZurNahrung(const std::vector<Nahrung>& nahrungen, int maxGrenze) {
+void bewegenZurNahrung(const std::vector<Nahrung>& nahrungen, int maxGrenze) {
         if (nahrungen.empty()) {                   // Falls keine Nahrung vorhanden ist (Jeśli nie ma żadnego jedzenia)
             zufaelligBewegen(maxGrenze);           // Bewege dich zufällig (Poruszaj się losowo)
             return;                                // Methode beenden (Zakończ metodę)
         }
 
-        const Nahrung* naechsteNahrung = nullptr; // Zeiger auf das naechste Nahrungsstuck (Wskaźnik na najbliższy kawałek jedzenia)
-        int kleinsteDistanz = 1000000; // Startwert fuer minimale Distanz (Wartość początkowa dla minimalnego dystansu)
+        const Nahrung* naechsteNahrung = nullptr;  // Zeiger auf das nächste Nahrungsstück (Wskaźnik na najbliższy kawałek jedzenia)
+        int kleinsteDistanz = 1000000;             // Startwert für minimale Distanz (Wartość początkowa dla minimalnego dystansu)
 
-        for (const auto& n : nahrungen) { // Gehe durch alle verfuegbaren Nahrungsquellen (Przejdź przez wszystkie dostępne źródła jedzenia)
-            int distanz = std::abs
+        for (const auto& n : nahrungen) {          // Gehe durch alle verfügbaren Nahrungsquellen (Przejdź przez wszystkie dostępne źródła jedzenia)
+            int distanz = std::abs(n.xPosition - xPosition) + std::abs(n.yPosition - yPosition); // Manhattan-Distanz berechnen (Oblicz odległość Manhattan)
+            if (distanz < kleinsteDistanz) {       // Wenn näher als bisheriges Minimum (Jeśli bliżej niż dotychczasowe minimum)
+                kleinsteDistanz = distanz;         // Aktualisiere kleinste Distanz (Zaktualizuj najmniejszy dystans)
+                naechsteNahrung = &n;              // Speichere Adresse der nächsten Nahrung (Zapisz adres najbliższego jedzenia)
+            }
+        }
+
+        if (naechsteNahrung != nullptr) {           // Falls ein Ziel gefunden wurde (Jeśli znaleziono cel)
+            if (xPosition < naechsteNahrung->xPosition) { // Ziel liegt rechts (Cel jest po prawej)
+                xPosition += 1;                    // Gehe einen Schritt nach rechts (Zrób krok w prawo)
+            } else if (xPosition > naechsteNahrung->xPosition) { // Ziel liegt links (Cel jest po lewej)
+                xPosition -= 1;                    // Gehe einen Schritt nach links (Zrób krok w lewo)
             }
 
+            if (yPosition < naechsteNahrung->yPosition) { // Ziel liegt unten (Cel jest na dole)
+                yPosition += 1;                    // Gehe einen Schritt nach unten (Zrób krok w dół)
+            } else if (yPosition > naechsteNahrung->yPosition) { // Ziel liegt oben (Cel jest na górze)
+                yPosition -= 1;                    // Gehe einen Schritt nach oben (Zrób krok w górę)
+            }
+        }
+
+        begrenzenUndEnergieVerbrauchen(maxGrenze); // Grenzen prüfen und Energie abziehen (Sprawdź granice i odejmij energię)
+    }
+
+    // Begrenzt Position auf Welt und verbraucht Bewegungsenergie (Ogranicza pozycję do świata i zużywa energię ruchu)
+    void begrenzenUndEnergieVerbrauchen(int maxGrenze) {
         if (xPosition < 0) xPosition = 0;          // Links nicht herausfallen (Nie wypada z lewej)
         if (xPosition > maxGrenze) xPosition = maxGrenze; // Rechts nicht herausfallen (Nie wypada z prawej)
         if (yPosition < 0) yPosition = 0;          // Unten nicht herausfallen (Nie wypada na dole)
         if (yPosition > maxGrenze) yPosition = maxGrenze; // Oben nicht herausfallen (Nie wypada na górze)
 
-        if (energie > 0) {
+        if (energie > 0) {                         // Nur abziehen, wenn Energie vorhanden (Odejmuj tylko, gdy jest energia)
             energie--;                             // Bewegung kostet 1 Energiepunkt (Ruch kosztuje 1 punkt energii)
         }
     }
@@ -186,7 +209,7 @@ public:
         
         for (int y = 0; y <= groesse; ++y) {       // Schleife für Y-Achse / Zeilen (Pętla dla osi Y / wierszy)
             for (int x = 0; x <= groesse; ++x) {   // Schleife für X-Achse / Spalten (Pętla dla osi X / kolumn)
-                char symbol = '.';                 // Standardmäßig leeres Feld (Domyślně puste pole)
+                char symbol = '.';                 // Standardmäßig leeres Feld (Domyślnie puste pole)
 
                 for (const auto& n : nahrungen) {  // Gehe durch alle Nahrungsquellen (Przejdź przez wszystkie źródła jedzenia)
                     if (n.xPosition == x && n.yPosition == y) {
@@ -215,10 +238,9 @@ public:
         std::cout << "Lebende Organismen (Żyjące organizmy): " << organismen.size() << std::endl; // Anzahl (Liczba)
         std::cout << "Verfügbare Nahrung (Dostępne jedzenie): " << nahrungen.size() << std::endl; // Nahrung (Jedzenie)
         std::cout << "Gesamte Geburten (Łączne narodziny):   " << gesamtGeburten << std::endl; // Geburten (Narodziny)
-        std::cout << "Gesamte Tode (Łączne zgoni):         " << gesamtTode << std::endl;     // Tode (Zgony)
+        std::cout << "Gesamte Tode (Łączne zgony):         " << gesamtTode << std::endl;     // Tode (Zgony)
         std::cout << "Verzehrte Nahrung (Zjedzone jedzenie): " << gesamtGegessen << std::endl; // Gegessen (Zjedzone)
 
-        // Durchschnittliche Energie berechnen, falls Organismen existieren (Obliczanie średniej energii, jeśli istnieją organizmy)
         if (!organismen.empty()) {                 // Prüfen, ob Vektor nicht leer ist (Sprawdzenie, czy wektor nie jest pusty)
             int gesamtEnergie = 0;                 // Variable für Summe (Zmienna na sumę)
             for (const auto& o : organismen) {     // Durchlaufe alle Organismen (Przejdź przez wszystkie organizmy)
@@ -227,7 +249,7 @@ public:
             double durchschnittsEnergie = static_cast<double>(gesamtEnergie) / organismen.size(); // Durchschnitt berechnen (Oblicz średnią)
             std::cout << "Durchschnittsenergie (Średnia energia): " << durchschnittsEnergie << std::endl; // Ausgabe (Wyjście)
         } else {
-            std::cout << "Durchschnittsenergie (Średnia energia): 0" << std::endl; // Fallback wenn alle tot (Awaria, gdy wszyscy nie żyją)
+            std::cout << "Durchschnittsenergie (Średnia energia): 0" << std::endl; // Fallback wenn alle tot (Wartość zapasowa, gdy wszyscy nie żyją)
         }
         std::cout << "==================================================" << std::endl; // Trennlinie (Linia oddzielająca)
     }
@@ -239,9 +261,9 @@ public:
         nahrungSpawnen(2);                         // 2 neue Nahrungsstücke spawnen (Generowanie 2 nowych kawałków jedzenia)
 
         for (auto& org : organismen) {
-            org.bewegen(groesse);                  // Organismus bewegen (Poruszenie organizmu)
+            org.bewegenZurNahrung(nahrungen, groesse); // Organismus bewegt sich gezielt zur Nahrung (Organizm porusza się celowo do jedzenia)
         }
-
+-- tu skońćzyłem
         for (auto orgIt = organismen.begin(); orgIt != organismen.end(); ++orgIt) {
             for (auto nahIt = nahrungen.begin(); nahIt != nahrungen.end(); ) {
                 if (orgIt->getX() == nahIt->xPosition && orgIt->getY() == nahIt->yPosition) {
