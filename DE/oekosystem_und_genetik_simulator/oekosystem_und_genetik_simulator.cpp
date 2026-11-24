@@ -38,6 +38,17 @@ public:
         }
     }
 
+    // Berechnet die Wahrnehmungsreichweite aus Anzahl der 'A'- und 'G'-Basen (Oblicza zasięg wykrywania na podstawie liczby zasad 'A' i 'G')
+    int berechneSichtweite() const {
+        int reichweite = 2;                        // Basis-Sichtweite von 2 Feldern (Bazowy zasięg widzenia równy 2 polom)
+        for (char base : genSequenz) {             // Geht durch jede Base in der DNA-Sequenz (Przechodzi przez każdą zasadę w sekwencji DNA)
+            if (base == 'A' || base == 'G') {      // 'A' und 'G' erhöhen die Wahrnehmung (Zasady 'A' i 'G' zwiększają zmysł wykrywania)
+                reichweite += 1;                   // Erhöht Reichweite um 1 Feld (Zwiększa zasięg o 1 pole)
+            }
+        }
+        return reichweite;                         // Gibt berechnete Sichtweite zurück (Zwraca obliczony zasięg widzenia)
+    }
+
     // Getter für die Gen-Sequenz (Getter zwracający sekwencję genów)
     std::string getSequenz() const {
         return genSequenz;                         // Gibt den Sequenz-String zurück (Zwraca łańcuch sekwencji)
@@ -71,13 +82,14 @@ public:
 
     // Konstruktor für Nachkommen (Konstruktor dla potomków)
     Organismus(const DNA& elternDna, int startX, int startY, int startEnergie)
-        : dna(elternDna, 0.15), energie(startEnergie), xPosition(startX), yPosition(startY) {} // Initialisierungsliste mit Mutationsrate (Lista inicjalizacyjna ze współczynnikiem mutacji)
+        : dna(elternDna, 0.20), energie(startEnergie), xPosition(startX), yPosition(startY) {} // 20% Mutationsrate für stärkere Evolution (20% mutacji dla wyraźniejszej ewolucji)
 
     // Methode zur Anzeige des Status (Metoda wyświetlająca stan)
     void statusAnzeigen() const {
         std::cout << "Pos: (" << xPosition << ", " << yPosition 
                   << ") | Energie: " << energie 
-                  << " | DNA: " << dna.getSequenz() << std::endl; // Gibt Infos aus (Wyświetla informacje)
+                  << " | Sicht: " << dna.berechneSichtweite()
+                  << " | DNA: " << dna.getSequenz() << std::endl; // Gibt Infos inkl. Sichtweite aus (Wyświetla info wraz z zasięgiem widzenia)
     }
 
     // Hilfsmethode für zufällige Bewegung (Metoda pomocnicza do losowego ruchu)
@@ -91,36 +103,35 @@ public:
         begrenzenUndEnergieVerbrauchen(maxGrenze); // Grenzen prüfen und Energie abziehen (Sprawdź granice i odejmij energię)
     }
 
-    // Intelligente Bewegung in Richtung der nächsten Nahrung (Inteligentny ruch w stronę najbliższego jedzenia)
-void bewegenZurNahrung(const std::vector<Nahrung>& nahrungen, int maxGrenze) {
-        if (nahrungen.empty()) {                   // Falls keine Nahrung vorhanden ist (Jeśli nie ma żadnego jedzenia)
-            zufaelligBewegen(maxGrenze);           // Bewege dich zufällig (Poruszaj się losowo)
-            return;                                // Methode beenden (Zakończ metodę)
-        }
-
-        const Nahrung* naechsteNahrung = nullptr;  // Zeiger auf das nächste Nahrungsstück (Wskaźnik na najbliższy kawałek jedzenia)
-        int kleinsteDistanz = 1000000;             // Startwert für minimale Distanz (Wartość początkowa dla minimalnego dystansu)
+    // Bewegung mit genetischer Sichtweite (Ruch z uwzględnieniem genetycznego zasięgu widzenia)
+    void bewegenZurNahrung(const std::vector<Nahrung>& nahrungen, int maxGrenze) {
+        int sichtweite = dna.berechneSichtweite();   // Holt genetische Sichtweite des Organismus (Pobiera genetyczny zasięg widzenia organizmu)
+        const Nahrung* naechsteNahrung = nullptr;  // Zeiger auf das nächste sichtbare Nahrungsstück (Wskaźnik na najbliższy widoczny kawałek jedzenia)
+        int kleinsteDistanz = sichtweite + 1;      // Nur Nahrung innerhalb der Sichtweite zählt (Liczy się tylko jedzenie w zasięgu wzroku)
 
         for (const auto& n : nahrungen) {          // Gehe durch alle verfügbaren Nahrungsquellen (Przejdź przez wszystkie dostępne źródła jedzenia)
             int distanz = std::abs(n.xPosition - xPosition) + std::abs(n.yPosition - yPosition); // Manhattan-Distanz berechnen (Oblicz odległość Manhattan)
-            if (distanz < kleinsteDistanz) {       // Wenn näher als bisheriges Minimum (Jeśli bliżej niż dotychczasowe minimum)
-                kleinsteDistanz = distanz;         // Aktualisiere kleinste Distanz (Zaktualizuj najmniejszy dystans)
-                naechsteNahrung = &n;              // Speichere Adresse der nächsten Nahrung (Zapisz adres najbliższego jedzenia)
+            if (distanz <= sichtweite && distanz < kleinsteDistanz) { // Prüft Reichweite und Nähe (Sprawdza zasięg i bliskość)
+                kleinsteDistanz = distanz;         // Aktualisiert kleinste Distanz (Zaktualizuj najmniejszy dystans)
+                naechsteNahrung = &n;              // Speichert Adresse der nächsten Nahrung (Zapisz adres najbliższego jedzenia)
             }
         }
 
-        if (naechsteNahrung != nullptr) {           // Falls ein Ziel gefunden wurde (Jeśli znaleziono cel)
-            if (xPosition < naechsteNahrung->xPosition) { // Ziel liegt rechts (Cel jest po prawej)
-                xPosition += 1;                    // Gehe einen Schritt nach rechts (Zrób krok w prawo)
-            } else if (xPosition > naechsteNahrung->xPosition) { // Ziel liegt links (Cel jest po lewej)
-                xPosition -= 1;                    // Gehe einen Schritt nach links (Zrób krok w lewo)
-            }
+        if (naechsteNahrung == nullptr) {           // Keine Nahrung in Sichtweite gefunden (Nie znaleziono jedzenia w zasięgu wzroku)
+            zufaelligBewegen(maxGrenze);           // Bewegt sich zufällig (Porusza się losowo)
+            return;                                // Methode beenden (Zakończ metodę)
+        }
 
-            if (yPosition < naechsteNahrung->yPosition) { // Ziel liegt unten (Cel jest na dole)
-                yPosition += 1;                    // Gehe einen Schritt nach unten (Zrób krok w dół)
-            } else if (yPosition > naechsteNahrung->yPosition) { // Ziel liegt oben (Cel jest na górze)
-                yPosition -= 1;                    // Gehe einen Schritt nach oben (Zrób krok w górę)
-            }
+        if (xPosition < naechsteNahrung->xPosition) { // Ziel liegt rechts (Cel jest po prawej)
+            xPosition += 1;                        // Gehe einen Schritt nach rechts (Zrób krok w prawo)
+        } else if (xPosition > naechsteNahrung->xPosition) { // Ziel liegt links (Cel jest po lewej)
+            xPosition -= 1;                        // Gehe einen Schritt nach links (Zrób krok w lewo)
+        }
+
+        if (yPosition < naechsteNahrung->yPosition) { // Ziel liegt unten (Cel jest na dole)
+            yPosition += 1;                        // Gehe einen Schritt nach unten (Zrób krok w dół)
+        } else if (yPosition > naechsteNahrung->yPosition) { // Ziel liegt oben (Cel jest na górze)
+            yPosition -= 1;                        // Gehe einen Schritt nach oben (Zrób krok w górę)
         }
 
         begrenzenUndEnergieVerbrauchen(maxGrenze); // Grenzen prüfen und Energie abziehen (Sprawdź granice i odejmij energię)
@@ -152,6 +163,9 @@ void bewegenZurNahrung(const std::vector<Nahrung>& nahrungen, int maxGrenze) {
     // Getter für Energie (Getter dla energii)
     int getEnergie() const { return energie; }     // Gibt Energie zurück (Zwraca energię)
 
+    // Getter für Sichtweite (Getter dla zasięgu widzenia)
+    int getSichtweite() const { return dna.berechneSichtweite(); } // Gibt Sichtweite zurück (Zwraca zasięg widzenia)
+
     // Prüft, ob der Organismus lebt (Sprawdza, czy organizm żyje)
     bool lebt() const {
         return energie > 0;                        // Wahr, wenn Energie über 0 liegt (Prawda, gdy energia jest powyżej 0)
@@ -176,7 +190,6 @@ private:
     std::vector<Organismus> organismen;            // Liste aller Organismen (Lista wszystkich organizmów)
     std::vector<Nahrung> nahrungen;                // Liste aller Nahrungsquellen (Lista wszystkich źródeł jedzenia)
 
-    // Statistik-Zähler (Liczniki statystyk)
     int gesamtGeburten = 0;                        // Zählt Gesamtzahl der Geburten (Liczy łączną liczbę narodzin)
     int gesamtTode = 0;                            // Zählt Gesamtzahl der Tode (Liczy łączną liczbę zgonów)
     int gesamtGegessen = 0;                        // Zählt verzehrte Nahrungseinheiten (Liczy spożyte jednostki jedzenia)
@@ -242,12 +255,16 @@ public:
         std::cout << "Verzehrte Nahrung (Zjedzone jedzenie): " << gesamtGegessen << std::endl; // Gegessen (Zjedzone)
 
         if (!organismen.empty()) {                 // Prüfen, ob Vektor nicht leer ist (Sprawdzenie, czy wektor nie jest pusty)
-            int gesamtEnergie = 0;                 // Variable für Summe (Zmienna na sumę)
+            int gesamtEnergie = 0;                 // Summe aller Energien (Suma wszystkich energii)
+            int gesamtSicht = 0;                   // Summe aller Sichtweiten (Suma wszystkich zasięgów widzenia)
             for (const auto& o : organismen) {     // Durchlaufe alle Organismen (Przejdź przez wszystkie organizmy)
                 gesamtEnergie += o.getEnergie();   // Addiere Energiewerte (Dodaj wartości energii)
+                gesamtSicht += o.getSichtweite();  // Addiere Sichtweiten (Dodaj zasięgi widzenia)
             }
             double durchschnittsEnergie = static_cast<double>(gesamtEnergie) / organismen.size(); // Durchschnitt berechnen (Oblicz średnią)
-            std::cout << "Durchschnittsenergie (Średnia energia): " << durchschnittsEnergie << std::endl; // Ausgabe (Wyjście)
+            double durchschnittsSicht = static_cast<double>(gesamtSicht) / organismen.size();     // Mittlere Sichtweite berechnen (Oblicz średni zasięg widzenia)
+            std::cout << "Durchschnittsenergie (Średnia energia):   " << durchschnittsEnergie << std::endl; // Ausgabe (Wyjście)
+            std::cout << "Durchschnittssicht (Średni zasięg wzroku): " << durchschnittsSicht << std::endl; // Ausgabe (Wyjście)
         } else {
             std::cout << "Durchschnittsenergie (Średnia energia): 0" << std::endl; // Fallback wenn alle tot (Wartość zapasowa, gdy wszyscy nie żyją)
         }
@@ -258,12 +275,12 @@ public:
     void simulieren() {
         std::cout << "\n--- Simulationsschritt gestartet (Rozpoczęto krok symulacji) ---" << std::endl;
         
-        nahrungSpawnen(2);                         // 2 neue Nahrungsstücke spawnen (Generowanie 2 nowych kawałków jedzenia)
+        nahrungSpawnen(3);                         // 3 neue Nahrungsstücke spawnen (Generowanie 3 nowych kawałków jedzenia)
 
         for (auto& org : organismen) {
-            org.bewegenZurNahrung(nahrungen, groesse); // Organismus bewegt sich gezielt zur Nahrung (Organizm porusza się celowo do jedzenia)
+            org.bewegenZurNahrung(nahrungen, groesse); // Organismus bewegt sich im Rahmen seiner Sichtweite (Organizm porusza się w ramach swojego zasięgu widzenia)
         }
--- tu skońćzyłem
+
         for (auto orgIt = organismen.begin(); orgIt != organismen.end(); ++orgIt) {
             for (auto nahIt = nahrungen.begin(); nahIt != nahrungen.end(); ) {
                 if (orgIt->getX() == nahIt->xPosition && orgIt->getY() == nahIt->yPosition) {
@@ -289,7 +306,6 @@ public:
             organismen.push_back(baby);            // Babys zur Hauptliste hinzufügen (Dodanie maluchów do głównej listy)
         }
 
-        // Vor dem Löschen die Anzahl der toten Organismen zählen (Przed usunięciem policz liczbę martwych organizmów)
         size_t anzahlVorher = organismen.size();   // Größe vor dem Filtern (Rozmiar przed filtrowaniem)
         
         organismen.erase(
@@ -307,16 +323,16 @@ public:
 
 // Hauptfunktion des Programms (Główna funkcja programu)
 int main() {
-    std::cout << "--- Oekosystem Simulator: Schritt 8 (Statistiken) ---" << std::endl;
+    std::cout << "--- Oekosystem Simulator: Schritt 10 (Genetik & Sichtweite) ---" << std::endl;
 
     Welt meineWelt(9);                             // Erstelle Welt 10x10 (0 bis 9) (Stwórz świat 10x10 od 0 do 9)
     
-    meineWelt.organismusHinzufuegen(Organismus(8, 40, 3, 3)); // Organismus hinzufügen (Dodaj organizm)
-    meineWelt.organismusHinzufuegen(Organismus(8, 40, 6, 6)); // Zweiter Organismus (Drugi organizm)
+    meineWelt.organismusHinzufuegen(Organismus(10, 45, 2, 2)); // Organismus 1 mit 10 Basen DNA (Organizm 1 z 10 zasadami DNA)
+    meineWelt.organismusHinzufuegen(Organismus(10, 45, 7, 7)); // Organismus 2 mit 10 Basen DNA (Organizm 2 z 10 zasadami DNA)
 
     meineWelt.visualisieren();                     // Weltkarte initial anzeigen (Wyświetl mapę świata początkową)
 
-    for (int i = 0; i < 3; ++i) {                  // Schleife für 3 Simulationsschritte (Pętla dla 3 kroków symulacji)
+    for (int i = 0; i < 5; ++i) {                  // Schleife für 5 Simulationsschritte (Pętla dla 5 kroków symulacji)
         meineWelt.simulieren();                    // Schritt ausführen (Wykonaj krok)
         meineWelt.visualisieren();                 // Karte nach dem Schritt anzeigen (Wyświetl mapę po kroku)
         meineWelt.statistikenAnzeigen();           // Statistiken nach jedem Schritt anzeigen (Wyświetl statystyki po każdym kroku)
