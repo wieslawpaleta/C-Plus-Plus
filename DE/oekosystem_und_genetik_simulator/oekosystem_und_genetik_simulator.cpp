@@ -4,7 +4,12 @@
 #include <random>       // Einbinden der Zufallszahlen-Bibliothek (Dołączenie biblioteki liczb losowych)
 #include <algorithm>    // Einbinden von Algorithmen wie remove_if (Dołączenie algorytmów takich jak remove_if)
 #include <cmath>        // Einbinden von mathematischen Funktionen wie std::abs (Dołączenie funkcji matematycznych jak std::abs)
+#include <fstream>      // Einbinden der Datei-Stream-Bibliothek für CSV-Export (Dołączenie biblioteki strumieni plikowych do eksportu CSV)
 
+// Struktur zur Speicherung der Statistik  eines Simulationsschritts (Struktura do przechowywania statystyk jednego kroku symulacji)
+struct StatistikEintrag {
+    int schritt; // Nummer des Simulationsschritts (Numer kroku symulacji)
+}
 // Klasse zur Darstellung der DNA eines Organismus (Klasa reprezentująca DNA organizmu)
 class DNA {
 private:
