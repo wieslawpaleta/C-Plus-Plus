@@ -8,8 +8,16 @@
 
 // Struktur zur Speicherung der Statistik  eines Simulationsschritts (Struktura do przechowywania statystyk jednego kroku symulacji)
 struct StatistikEintrag {
-    int schritt; // Nummer des Simulationsschritts (Numer kroku symulacji)
-}
+    int schritt;                 // Nummer des Simulationsschritts (Numer kroku symulacji)
+    size_t anzahlOrganismen;     // Anzahl lebender Organismen (Liczba żywych organizmów)
+    size_t anzahlNahrung;        // Anzahl verfügbarer Nahrung (Liczba dostępnego jedzenia)
+    int gesamtGeburten;          // Kumulierte Geburten (Skumulowane narodziny)
+    int gesamtTode;              // Kumulierte Tode (Skumulowane zgony)
+    int gesamtGegessen;          // Kumulierte verzehrte Nahrung (Skumulowane zjedzone jedzenie)
+    double durchschnittsEnergie; // Durchschnittliche Energie (Średnia energia)
+    double durchschnittsSicht;   // Durchschnittliche Sichtweite (Średni zasięg widzenia)
+};
+
 // Klasse zur Darstellung der DNA eines Organismus (Klasa reprezentująca DNA organizmu)
 class DNA {
 private:
@@ -194,7 +202,9 @@ private:
     int groesse;                                   // Weltgröße (Rozmiar świata)
     std::vector<Organismus> organismen;            // Liste aller Organismen (Lista wszystkich organizmów)
     std::vector<Nahrung> nahrungen;                // Liste aller Nahrungsquellen (Lista wszystkich źródeł jedzenia)
+    std::vector<StatistikEintrag> statistikHistorie; // Speichert alle Statistik-Daten fuer CSV
 
+    int aktuelllerSchritt = 0;                      // Zählt den aktuellen Simulationsschritt (Liczy aktualny krok symulacji)
     int gesamtGeburten = 0;                        // Zählt Gesamtzahl der Geburten (Liczy łączną liczbę narodzin)
     int gesamtTode = 0;                            // Zählt Gesamtzahl der Tode (Liczy łączną liczbę zgonów)
     int gesamtGegessen = 0;                        // Zählt verzehrte Nahrungseinheiten (Liczy spożyte jednostki jedzenia)
@@ -250,14 +260,65 @@ public:
         std::cout << "-------------------------------" << std::endl; // Trennlinie (Linia oddzielająca)
     }
 
-    // Methode zur Anzeige von Statistiken (Metoda wyświetlania statystyk)
-    void statistikenAnzeigen() const {
+// Berechnet Statistiken, zeigt sie an und speichert sie in der Historie (Oblicza statystyki, wyświetla je i zapisuje w historii)
+    void statistikenErfassenUndAnzeigen() {
+        double durchschnittsEnergie = 0.0;         // Variable für Durchschnittsenergie (Zmienna na średnią energię)
+        double durchschnittsSicht = 0.0;           // Variable für Durchschnittssicht (Zmienna na średni zasięg wzroku)
+
+        if (!organismen.empty()) {                 // Prüfen, ob Vektor nicht leer ist (Sprawdzenie, czy wektor nie jest pusty)
+            int gesamtEnergie = 0;                 // Summe aller Energien (Suma wszystkich energii)
+            int gesamtSicht = 0;                   // Summe aller Sichtweiten (Suma wszystkich zasięgów widzenia)
+            for (const auto& o : organismen) {     // Durchlaufe alle Organismen (Przejdź przez wszystkie organizmy)
+                gesamtEnergie += o.getEnergie();   // Addiere Energiewerte (Dodaj wartości energii)
+                gesamtSicht += o.getSichtweite();  // Addiere Sichtweiten (Dodaj zasięgi widzenia)
+            }
+            durchschnittsEnergie = static_cast<double>(gesamtEnergie) / organismen.size(); // Durchschnitt berechnen (Oblicz średnią)
+            durchschnittsSicht = static_cast<double>(gesamtSicht) / organismen.size();     // Mittlere Sichtweite berechnen (Oblicz średni zasięg widzenia)
+        }
+
+        // Neuen Datensatz für diesen Schritt erstellen (Tworzenie nowego rekordu danych dla tego kroku)
+        StatistikEintrag eintrag;                  // Struktur-Objekt anlegen (Utworzenie obiektu struktury)
+        eintrag.schritt = aktuellerSchritt;        // Aktuellen Schritt speichern (Zapisz aktualny krok)
+        eintrag.anzahlOrganismen = organismen.size(); // Organismenanzahl speichern (Zapisz liczbę organizmów)
+        eintrag.anzahlNahrung = nahrungen.size();  // Nahrungsanzahl speichern (Zapisz liczbę jedzenia)
+        eintrag.gesamtGeburten = gesamtGeburten;   // Geburten speichern (Zapisz narodziny)
+        eintrag.gesamtTode = gesamtTode;           // Tode speichern (Zapisz zgony)
+        eintrag.gesamtGegessen = gesamtGegessen;   // Gegessenes speichern (Zapisz zjedzone)
+        eintrag.durchschnittsEnergie = durchschnittsEnergie; // Energie speichern (Zapisz energię)
+        eintrag.durchschnittsSicht = durchschnittsSicht;     // Sichtweite speichern (Zapisz zasięg wzroku)
+        statistikHistorie.push_back(eintrag);      // Eintrag zur Historie hinzufügen (Dodaj wpis do historii)
+
+        // Ausgabe in der Konsole (Wyświetlenie w konsoli)
         std::cout << "=== OEKOSYSTEM STATISTIKEN (STATYSTYKI EKOSYSTEMU) ===" << std::endl; // Titel (Tytuł)
+        std::cout << "Schritt (Krok):                        " << aktuellerSchritt << std::endl; // Schritt (Krok)
         std::cout << "Lebende Organismen (Żyjące organizmy): " << organismen.size() << std::endl; // Anzahl (Liczba)
         std::cout << "Verfügbare Nahrung (Dostępne jedzenie): " << nahrungen.size() << std::endl; // Nahrung (Jedzenie)
         std::cout << "Gesamte Geburten (Łączne narodziny):   " << gesamtGeburten << std::endl; // Geburten (Narodziny)
         std::cout << "Gesamte Tode (Łączne zgony):         " << gesamtTode << std::endl;     // Tode (Zgony)
         std::cout << "Verzehrte Nahrung (Zjedzone jedzenie): " << gesamtGegessen << std::endl; // Gegessen (Zjedzone)
+        std::cout << "Durchschnittsenergie (Średnia energia):   " << durchschnittsEnergie << std::endl; // Energie (Energia)
+        std::cout << "Durchschnittssicht (Średni zasięg wzroku): " << durchschnittsSicht << std::endl; // Sicht (Wzrok)
+        std::cout << "==================================================" << std::endl; // Trennlinie (Linia oddzielająca)
+    }
+
+    // Exportiert die gesammelte Historie in eine CSV-Datei (Eksportuje zebraną historię do pliku CSV)
+    void exportiereAlsCSV(const std::string& dateiName) const {
+        std::ofstream datei(dateiName);            // Öffnet eine Ausgabedatei zum Schreiben (Otwiera plik wyjściowy do zapisu)
+
+        if (!datei.is_open()) {                    // Prüft, ob die Datei erfolgreich geöffnet wurde (Sprawdza, czy plik został poprawnie otwarty)
+            std::cerr << "Fehler: Konnte CSV-Datei nicht erstellen! (Błąd: Nie udało się utworzyć pliku CSV!)" << std::endl; // Fehlermeldung (Komunikat błędu)
+            return;                                // Methode abbrechen (Zakończ metodę)
+        }
+
+        // CSV-Kopfzeile schreiben (Zapisz nagłówek kolumn CSV)
+        datei << "Schritt,Organismen,Nahrung,Geburten,Tode,Gegessen,DurchschnittsEnergie,DurchschnittsSicht\n";
+
+        // Alle gespeicherten Zeilen durchlaufen und schreiben (Przejdź przez wszystkie zapisane wiersze i zapisz je)
+        for (const auto& eintrag : statistikHistorie) {
+            datei << eintrag.schritt << ","
+                  << eintrag
+        }
+-- tu skończyłem 
 
         if (!organismen.empty()) {                 // Prüfen, ob Vektor nicht leer ist (Sprawdzenie, czy wektor nie jest pusty)
             int gesamtEnergie = 0;                 // Summe aller Energien (Suma wszystkich energii)
